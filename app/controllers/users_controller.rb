@@ -1,9 +1,6 @@
-class ProductsController < ApplicationController
+class UsersController < ApplicationController
 
-	def top
-	end
-
-	def new
+	def leave
 	end
 
 	def index
@@ -18,5 +15,4 @@ class ProductsController < ApplicationController
 	def update
 	end
 	
-
 end
