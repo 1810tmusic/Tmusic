@@ -72,3 +72,5 @@ gem 'jquery-rails'
 
 # 追加.削除可能なフォームの実装
 gem "cocoon"
+
+gem "pry-rails"

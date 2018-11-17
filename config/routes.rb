@@ -3,12 +3,10 @@ Rails.application.routes.draw do
 
   resources :products
   resources :users do
-  	resources :histories, only:[:index]
     resources :posts, only: [:index]
   end
   resources :posts, only: [:index, :create, :update, :destroy]
   resources :carts, only: [:show, :create, :update, :destroy]
-  resources :histories, only: [:index, :show, :create, :update, :destroy]
 
   get '/' => 'products#top'
   post '/products/:id/add_to_cart' => 'carts#add_item', as: "add_cart"
