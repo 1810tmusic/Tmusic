@@ -12,13 +12,20 @@
       </tr>
 
       <% @users.each do |user| %>
-        <tr>
-          <td class="list"> <%= user.id %> </td>
-          <td class="list"> <%= user.name %> </td>
-          <td class="command"> <%= link_to "Show", user_path(user) %> </td>
-          <td class="command"> <%= link_to "Edit", edit_user_path(user) %> </td>
-          <td class="command"> <%= link_to "Delete", user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %> </td>
-        </tr>
+          <tr>
+            <td class="list"> <%= user.id %> </td>
+            <td class="list"> <%= user.name %> </td>
+            <td class="command">
+              <% if user.leave_at == nil %>
+                アクティブユーザー
+              <% else %>
+                退会済
+              <% end %>
+            </td>
+            <td class="command"> <%= link_to "Show", user_path(user) %> </td>
+            <td class="command"> <%= link_to "Edit", edit_user_path(user) %> </td>
+            <td class="command"> <%= link_to "Delete", user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %> </td>
+          </tr>
       <% end %>
 
     </table>
