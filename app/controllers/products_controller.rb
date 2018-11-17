@@ -49,7 +49,6 @@ class ProductsController < ApplicationController
 	private
 		def product_params
         	params.require(:product).permit(:product_name,:product_image,:stock,:artist_id,:label_id,:genre_id,
-        		prices_attributes: [:id, :price, :product_id, :_destroy],
         		discs_attributes: [:id, :disc_no, :product_id, :_destroy, songs_attributes: [:id,:song_no,:song,:disc_id, :_destroy]])
 		end
 
