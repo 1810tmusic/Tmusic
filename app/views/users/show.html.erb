@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
+      <h2> <%= @user.name %>さんのページ </h2>
+
+
+      <table>
+          <tr>
+            <th> 名前 ( 漢字 ）</th>
+            <td class="list"><%= @user.name %></td>
+          </tr>
+
+          <tr>
+            <th> 名前 ( カナ ）</th>
+            <td class="list"><%= @user.name_kana %></td>
+          </tr>
+
+          <tr>
+            <th> ユーザー名 </th>
+            <td class="list"><%= @user.nickname %></td>
+          </tr>
+
+          <tr>
+            <th> 生年月日 </th>
+            <td class="list">
+              <%= @user.birthday %>( <%= @age %>歳 )
+            </td>
+          </tr>
+
+          <tr>
+            <th> 住所 </th>
+            <td class="list">
+              〒<%= @user.postal_code %><br>
+              <%= @user.address %>
+            </td>
+          </tr>
+          <% @destinations.each_with_index do |destination,i| %>
+            <tr>
+              <th> 配送先 <%= i + 1 %></th>
+              <td class="list">
+                名前： <%= destination.name %> <br>
+                住所： <br>
+                  〒<%= destination.postal_code %> <br>
+                  <%= destination.address %> <br>
+              </td>
+            </tr>
+          <% end %>
+
+          <tr>
+            <th> 電話番号 </th>
+            <td class="list"><%= @user.phone_number %></td>
+          </tr>
+
+          <tr>
+            <th> メールアドレス </th>
+            <td class="list"><%= @user.email %></td>
+          </tr>
+
+      </table>
+
+
+        <%= link_to "編集", edit_user_path(@user), class:"btn btn-default" %>
+
+
+        <%= link_to "削除", user_path(@user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %>
+
+        or 退会<br>
+
+        <%= link_to "コレクション", posts_path %> <br>
+        <%= link_to "購入履歴", histories_path %> <br>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<br>
+<br>

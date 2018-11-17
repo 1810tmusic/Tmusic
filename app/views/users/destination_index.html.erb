@@ -1,0 +1,102 @@
+<%# 郵便番号から住所を自動表示するjavascript %>
+<%javascript_include_tag 'ajaxzip3'%>
+<script>
+window.onload=function(){
+  document.getElementById("destination_postal_code").addEventListener('keyup', function(){
+    AjaxZip3.zip2addr(this, '', 'destination[address]', 'destination[address]');
+    });
+  }
+</script>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
+    <h2>配送先一覧</h2>
+
+    <br>
+    <br>
+
+    <h3>登録済み</h3>
+
+    <table>
+      <tr>
+        <th> 名前 ( 漢字 ) </th>
+        <th> 名前 ( カナ ) </th>
+        <th> 住所 </th>
+        <th> 電話番号 </th>
+      </tr>
+
+      <% @destinations.each do |destination| %>
+      <tr>
+        <td> <%= destination.name %> </td>
+        <td> <%= destination.name_kana %> </td>
+        <td>
+          〒<%= destination.postal_code %> <br>
+          <%= destination.address %>
+        </td>
+        <td> <%= destination.phone_number %> </td>
+
+        <td class="command"> <%= link_to "Edit", destination_edit_path(destination) %> </td>
+        <td class="command"> <%= link_to "Delete", destination_destroy_path(destination), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %> </td>
+      </tr>
+      <% end %>
+    </table>
+
+    <br>
+    <br>
+
+    <h3>追加</h3>
+  
+    <%= form_for @destination, url: destination_create_path(@user, @destination) do |f| %>
+
+      <% if @destination.errors.any? %>
+          <%= @destination.errors.count %>件のエラーが発生しました
+          <% @destination.errors.full_messages.each do |message| %>
+          <%= message %>
+          <% end %>
+          <% end %>
+
+      <div class="field form-group">
+        <%= f.label :name, "名前 ( 漢字 ) " %><br />
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control" %>
+      <div>
+
+      <div class="field form-group">
+          <%= f.label :name_kana, "名前 ( カナ ) " %><br />
+          <%= f.text_field :name_kana, autofocus: true, autocomplete: "name_kana", class:"form-control" %>
+      </div>
+
+      <div class="field form-group">
+        <%= f.label :address, "住所" %><br />
+        <div class="row">
+          <div class="col-md-5">
+            <%= f.text_field :postal_code, autofocus: true, autocomplete: "postal_code", class:"form-control", placeholder:"〒" %>
+          </div>
+        </div>
+        <%= f.text_field :address, autofocus: true, autocomplete: "address", class:"form-control" %>
+      </div>
+
+
+      <div class="field form-group">
+        <%= f.label :phone_number, "電話番号" %><br />
+        <%= f.text_field :phone_number, autofocus: true, autocomplete: "phone_number", class:"form-control" %>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6  col-md-offset-3">
+          <div class="actions form-group">
+            <%= f.submit "配送先の追加", class:"form-control btn btn-warning" %>
+          </div>
+        </div>
+    <% end %>
+
+    <%= link_to "戻る", edit_user_path(@user) %>
+
+
+    </div>
+  </div>
+</div>
+
+<br>
+<br>

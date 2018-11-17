@@ -1,0 +1,93 @@
+<h1>購入履歴一覧</h1>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-12">
+  <table class="histories">
+    <thead>
+      <tr>
+        <th>
+          購入履歴ID
+        </th>
+        <th>
+          購入ユーザー名
+        </th>
+        <th>
+          購入日時
+        </th>
+        <th>
+          総計
+        </th>
+        <th>
+          発送先住所
+        </th>
+        <th class="histories-shipping-statuses">
+          発送状況
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @histories.each do |history| %>
+        <tr>
+          <td>
+            <%= history.id %>
+          </td>
+          <td>
+            <%= history.cart.user.name %>
+          </td>
+          <td>
+            <%= history.created_at %>
+          </td>
+          <td> <!-- 総計 -->
+            <% @total_price = 0 %>
+            <% history.cart.cart_items.each do |cart_item| %>
+              <% @from = '0000-01-01 00:00:00' %>
+              <% @to = history.created_at %> <!-- 購入日時 -->
+              <% cart_item.product.prices.where(created_at: @from..@to).reverse_each do |price| %>
+                <% p = price.price %>
+                <% @total_price += cart_item.count * p %>
+                <% break %>
+              <% end %>
+            <% end %>
+            <%= number_with_delimiter(@total_price) %>
+          </td>
+          <td>
+            <%= history.address %>
+          </td>
+          <td class="histories-shipping-status"> <!-- 発送状況 -->
+            <!-- プログレスバー -->
+            <div class="progress">
+              <% if history.shipping_status == '発送準備中' %>
+                <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 33.3%;">
+                <%= history.shipping_status %>
+                </div>
+              <% elsif history.shipping_status == '発送中' %>
+                <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: 66.6%;">
+                <%= history.shipping_status %>
+                </div>
+              <% else %>
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width: 100%;">
+                <%= history.shipping_status %>
+                </div>
+              <% end %>
+            </div>
+            <!-- update -->
+            <%= form_for(history) do |f| %>
+              <div class="form-group">
+                <%= f.select :shipping_status, History.shipping_statuses.keys.to_a, {}, class:"form_control" %>
+                <%= f.submit "変更する", class:"btn btn-default btn-xs" %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @histories %>
+</div>
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->
