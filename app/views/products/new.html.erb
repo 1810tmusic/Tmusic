@@ -1,0 +1,51 @@
+<h1>商品新規登録画面</h1>
+
+	<%= form_for(@product_new, html:{class: 'form-horizontal'}) do |f| %>
+		<!-- image -->
+
+		<%= f.attachment_field :product_image, class: "user_image" %>
+
+		<h4>シングル/アルバム名</h4>
+			<%= f.text_field :product_name, class: "form-control" %>
+
+		<h4>アーティスト名</h4>
+
+			<%= f.text_field :artist, class: "form-control" %>
+
+			<%= f.collection_select :artist_id, Artist.all, :id, :artist_name, {:prompt => "選択してください--⬇"} %>
+																		<!--or  :include_blank => true  空欄追加 -->
+
+		<h4>レーベル名</h4>
+			<%= f.text_field :label, class: "form-control" %>
+
+			<%= f.collection_select :label_id, Label.all, :id, :label_name, {:prompt => "選択してください--⬇"} %>
+			　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
+
+		<h4>ジャンル名</h4>
+			<%= f.text_field :genre, class: "form-control" %>
+			<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください--⬇"} %>
+
+
+        <!-- discのHTMLを表示させてる　　 -->
+		  <div id="discs">
+		  	<%= f.fields_for :discs do |disc| %>
+				<%= render 'disc_fields', f: disc %>
+			<% end %>
+
+          <div id="links">
+            <%= link_to_add_association '＋add disc', f, :discs %>
+          </div>
+
+
+		<h4>在庫数</h4>
+		<%= f.number_field :stock, min:0, class: "form-control" %><br>
+
+
+		<%= f.submit'登録', class: "Create" %>
+
+	<% end %>
+
+
+
+
+

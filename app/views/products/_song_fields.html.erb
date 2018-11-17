@@ -1,0 +1,14 @@
+<div class="nested-fields form-inline">
+  <div class="form-group">
+  	<table>
+  		<tr>
+  			<th><%= f.label :song_no %></th>
+  			<th><%= f.label :song %></th>
+  		</tr>
+  		<tr>
+  			<td><%= f.number_field :song_no, min:0 %></td>
+			<td><%= f.text_field :song %></td>
+		</tr>
+	</table>
+  </div>
+</div>
