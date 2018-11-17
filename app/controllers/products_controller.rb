@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
 
 	def top
+		@products = Product.includes(:prices).all
 	end
 
 	def new

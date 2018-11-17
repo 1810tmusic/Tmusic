@@ -2,11 +2,6 @@ class UsersController < ApplicationController
 	# ログインユーザー以外が他のユーザーの編集ができないようにする（一旦保留）
 	# before_action :correct_user, only: [:edit, :update]
 
-	def leave
-	end
-
-	# ユーザー一覧
-	# 管理者だけが見られるようにあとで設定する
 	def index
 		@users = User.all
 	end
@@ -72,11 +67,25 @@ class UsersController < ApplicationController
 		redirect_to destination_index_path(@destination.user_id)
 	end
 
+	# 論理削除（ユーザー退会時の処理）
+	def soft_destroy
+    @user = User.find(params[:id])
+    @user.leave_at = Time.now
+    @user.posts.destroy_all
+    @user.email += "?"
+    until @user.save do
+      @user.email += "?"
+    end
+    if @user.save
+      sign_out @user
+      redirect_to '/'
+    end
+  end
 
-
+  
 	private
-    def user_params
-        params.require(:user).permit(:name, :name_kana, :postal_code, :address, :phone_number, :admin, :nickname, :birthday)
+  def user_params
+    params.require(:user).permit(:name, :name_kana, :postal_code, :address, :phone_number, :admin, :nickname, :birthday)
 	end
 	def destination_params
 		params.require(:destination).permit(:name, :name_kana, :postal_code, :address, :phone_number, :user_id)
