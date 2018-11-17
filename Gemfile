@@ -60,10 +60,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# 論理削除はgemなしで実装しました
 gem 'devise'
-
-
-gem 'paranoia'
 gem 'ranked-model'
 gem "refile", require: "refile/rails", github: 'manfe/refile'
 gem "refile-mini_magick"

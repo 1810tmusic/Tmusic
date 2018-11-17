@@ -7,9 +7,9 @@ class Product < ApplicationRecord
 	has_many :posts
 	has_many :post_users, through: :posts, source: :user
 
-	has_many :prices
+	has_many :prices, foreign_key: "product_id"
 
 	has_many :discs
 
-	has_many :cart_items
+	has_many :cart_items, foreign_key: "product_id"
 end

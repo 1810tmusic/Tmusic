@@ -1,3 +1,53 @@
 // Place all the styles related to the histories controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.row {
+  margin-top: 30px;
+}
+
+.shipping-status {
+  width: 100%;
+}
+
+.flash-message {
+  color: #090;
+}
+
+.btn {
+  margin-left: 10px;
+}
+
+.cart-items, .histories {
+  width: 100%;
+}
+
+.histories-shipping-statuses {
+  width: 200px;
+}
+
+.histories-shipping-status {
+  padding-top: 5px;
+  padding-right: 5px;
+}
+
+.cart-items td, .cart-items th,
+.histories td, .histories th {
+  border: 1px #000 solid;
+}
+
+.cart-items th, .histories th {
+  text-align: center;
+}
+
+.cart-items td, .histories td {
+  padding-left: 5px;
+}
+
+.total-price {
+  width: 20%;
+  float: right;
+  border-bottom: 1px #000 solid;
+  font-size: large;
+  font-weight: bold;
+}
