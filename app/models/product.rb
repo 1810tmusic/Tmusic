@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
 
 	attachment :product_image
+
 	belongs_to :artist
 	belongs_to :genre
 	belongs_to :label
@@ -14,4 +15,5 @@ class Product < ApplicationRecord
 	  accepts_nested_attributes_for :discs, reject_if: :all_blank, allow_destroy: true
 
 	has_many :cart_items, foreign_key: "product_id"
+
 end
