@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :timeoutable
 
   acts_as_paranoid column: :leave_at
 
@@ -10,5 +10,6 @@ class User < ApplicationRecord
   has_many :posts
   has_many :post_products, through: :posts, source: :product
   has_many :carts
+
 
 end
