@@ -17,4 +17,16 @@ class Product < ApplicationRecord
 
 	has_many :cart_items
 
+	def posted_by?(user)
+		posts.where(user_id: user.id).exists?
+	end
+
+	def self.search(search)
+		if search
+			where(['product_name LIKE ?', "%#{search}%"])
+		else
+			all
+		end
+	end
+
 end

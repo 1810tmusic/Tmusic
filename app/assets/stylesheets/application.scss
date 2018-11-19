@@ -80,3 +80,51 @@ footer {
   height: 100px;
   background-color: #DCDDDD;
 }
+
+// index
+.products {
+	margin: 0 auto;
+	width: 80%;
+}
+.product {
+	width: 30%;
+	margin-top: 50px;
+	margin-right: 5%;
+	float: left;
+}
+.product:nth-child(3n) {
+	margin-right: 0;
+	float: right;
+}
+.image {
+	width: 100%;
+	height: 200px;
+	border: 1px solid black;
+}
+.product_information {
+	margin-top: 20px;
+	text-align: center;
+}
+.product_name p {
+	font-size: 20px;
+	border-bottom: 1px solid black;
+}
+.artist_name p {
+	border-bottom: 1px solid black;
+}
+.product_price p {
+	font-size: 15px;
+}
+.kakaku {
+	float: left;
+	padding-left: 10px;
+	padding-right: 40px;
+	border-right: 1px solid black;
+	font-weight: bold;
+}
+.product_price {
+	border-bottom: 1px solid black;
+}
+.cart {
+	margin-top: 20px;
+}
