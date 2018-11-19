@@ -1,0 +1,229 @@
+<h1>購入履歴詳細</h1>
+
+<div class="container">
+
+<div class="row">
+
+<!-- 共通部分 -->
+<div class="col-md-8">
+  <table>
+    <tbody>
+      <tr>
+        <th>
+          購入履歴ID
+        </th>
+        <td>
+          <%= @history.id %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          購入ユーザー名
+        </th>
+        <td>
+          <%= @history.cart.user.name %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          購入日時
+        </th>
+        <td>
+          <%= @history.created_at %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          発送先氏名
+        </th>
+        <td>
+          <%= @history.name %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          発送先氏名（かな）
+        </th>
+        <td>
+          <%= @history.name_kana %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          発送先郵便番号
+        </th>
+        <td>
+          <%= @history.postal_code %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          発送先住所
+        </th>
+        <td>
+          <%= @history.address %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          発送先電話番号
+        </th>
+        <td>
+          <%= @history.phone_number %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ステータス -->
+<div class="col-md-4">
+  <table class="shipping-status">
+    <thead>
+      <tr>
+        <th>
+          発送状況
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="progress">
+            <% if @history.shipping_status == '発送準備中' %>
+              <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 33.3%;">
+                <%= @history.shipping_status %>
+              </div>
+            <% elsif @history.shipping_status == '発送中' %>
+              <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: 66.6%;">
+                <%= @history.shipping_status %>
+              </div>
+            <% else %>
+              <div class="progress-bar progress-bar-success" role="progressbar" style="width: 100%;">
+                <%= @history.shipping_status %>
+              </div>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+      <!-- フラッシュ -->
+      <tr>
+        <td>
+          <div class="flash-message">
+            <% if notice %>
+              <%= notice %>
+            <% end %>
+            <% if alert %>
+              <%= alert %>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+      <!-- update -->
+      <tr>
+        <td>
+          <%= form_for(@history) do |f| %>
+            <div class="form-group">
+              <%= f.select :shipping_status, History.shipping_statuses.keys.to_a, {}, class:"form_control" %>
+              <%= f.submit "変更する", class:"btn btn-default btn-xs" %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div> <!-- /row -->
+
+<div class="row">
+
+<!-- カートの内容 -->
+<div class="col-md-12">
+  <table class="cart-items">
+    <thead>
+      <tr>
+        <th>
+          商品名
+        </th>
+        <th>
+          アーティスト名
+        </th>
+        <th>
+          販売単体価格
+        </th>
+        <th>
+          枚数
+        </th>
+        <th>
+          小計
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @history_cart_items.each do |cart_item| %>
+        <tr>
+          <td>
+            <%= cart_item.product.product_name %>
+          </td>
+          <td>
+            <%= cart_item.product.artist.artist_name %>
+          </td>
+          <td>
+            <% @from = '0000-01-01 00:00:00' %>
+            <% @to = @history.created_at %> <!-- 購入日時 -->
+            <% cart_item.product.prices.where(created_at: @from..@to).reverse_each do |price| %>
+              &yen; <%= number_with_delimiter(price.price) %>
+              <% break %>
+            <% end %>
+          </td>
+          <td>
+            <%= cart_item.count %>
+          </td>
+          <td>
+            <% @from = '0000-01-01 00:00:00' %>
+            <% @to = @history.created_at %> <!-- 購入日時 -->
+            <% cart_item.product.prices.where(created_at: @from..@to).reverse_each do |price| %>
+              <% p = price.price %>
+              &yen; <%= number_with_delimiter(cart_item.count * p) %>
+              <% break %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @history_cart_items %>
+</div>
+
+</div> <!-- /row -->
+
+<div class="row">
+
+<!-- 総額 -->
+<div class="col-md-12">
+  <table class="total-price">
+    <tr>
+      <th>
+        総計:
+      </th>
+      <td>
+        <% @total_price = 0 %>
+        <% @history.cart.cart_items.each do |cart_item| %>
+          <% @from = '0000-01-01 00:00:00' %>
+          <% @to = @history.created_at %> <!-- 購入日時 -->
+          <% cart_item.product.prices.where(created_at: @from..@to).reverse_each do |price| %>
+            <% p = price.price %>
+            <% @total_price += cart_item.count * p %>
+            <% break %>
+          <% end %>
+        <% end %>
+        &yen; <%= number_with_delimiter(@total_price) %>. -
+      </td>
+    </tr>
+  </table>
+</div>
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->
