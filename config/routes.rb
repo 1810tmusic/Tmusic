@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   get '/' => 'products#top'
   post '/products/:id/add_to_cart' => 'carts#add_item', as: "add_cart"
   get '/products/:id/post_users' => 'posts#posted_users', as: "post_users"
-  delete '/carts/:id' => 'carts#delete_item', as: "delete_item"
+  delete '/delete_item/:id' => 'cars#delete_item', as: "delete_item"
+  patch '/update_item/:id' => 'cars#update', as: "update_items"
 end
