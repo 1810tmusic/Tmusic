@@ -11,9 +11,9 @@
     <%= submit_tag %>
   <% end %>
 <% end %>
-<% if @cart.id == current_cart.id %>
+<% if @cart.id == current_cart.id && !@cart.cart_items.empty? %>
   <%= link_to "購入", purchase_path(@cart.id), method: :post %>
 <% else %>
-  購入はできません（現在のカートとは異なるカートを表示しています）
+  購入はできません
 
 <% end %>

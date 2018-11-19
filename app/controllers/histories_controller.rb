@@ -9,8 +9,7 @@ class HistoriesController < ApplicationController
     for cart_item in @cart_items
       @product = cart_item.product
       if @product.stock == 0
-        cart_item.count = 0
-        cart_item.save
+        cart_item.destroy
         @cart_item_error_status = "sold_out"
         @cart_item_error_product = cart_item.product.product_name
       elsif @product.stock < cart_item.count

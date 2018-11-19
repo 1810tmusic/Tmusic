@@ -17,19 +17,7 @@
 <div class="product_name"><p><%= product.product_name %></p></div>
 <div class="artist_name"><P>アーティスト名</P></div>
 <div class="product_price"><p class="kakaku">価格</p><p>¥</p></div>
-<% if product.posted_by?(current_user) %>
-  <td>
-  	<%= link_to post_products_path(product), class: "fav", remote: true do %>
-  	  <button class="btn btn-danger" id="<%= product.id %>">年表から削除</button>
-  	<% end %>
-  </td>
-<% else %>
-  <td>
-  	<%= link_to post_products_path(product), class: "fav", remote: true do %>
-  	  <button class="btn btn-success" id="<%= product.id %>">年表へ追加</button>
-  	<% end %>
-  </td>
-<% end %>
+
 </div>
 <button class="cart"><%= link_to 'カート', add_cart_path(product.id, product_id: product.id), method: :post %></button>
 <%= link_to "show", product_path(product.id) %>

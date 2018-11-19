@@ -8,8 +8,7 @@ class ApplicationController < ActionController::Base
 			@cart = Cart.find_by(user_id: current_user.id, done: false)
 		else
 			@cart = Cart.create(user_id: current_user.id, done: false, destination_id: 1)
-			@cart.save!
-			binding.pry
+			@cart.save
 		end
 	end
 	def after_sign_in_path_for(resource)
