@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :carts, foreign_key: "user_id"
   has_many :histories, foreign_key: "user_id"
 
+
+
   # 論理削除ユーザーのログイン禁止
   def active_for_authentication?
     super && self.leave_at == nil
