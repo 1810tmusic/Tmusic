@@ -44,8 +44,11 @@ window.onload=function(){
         </div>
 
         <div class="field form-group">
-          <%= f.label :address, "住所" %><br />
           <div class="row">
+            <div class="col-md-10">
+              <%= f.label :address, "住所" %><br />
+              <em>(郵便番号はハイフンを入れないでください)</em>
+            </div>
             <div class="col-md-5">
               <%= f.text_field :postal_code, autofocus: true, autocomplete: "postal_code", class:"form-control", placeholder:"〒" %>
             </div>
@@ -55,7 +58,8 @@ window.onload=function(){
 
 
         <div class="field form-group">
-          <%= f.label :phone_number, "電話番号" %><br />
+          <%= f.label :phone_number, "電話番号" %>
+          <em>(ハイフンを入れないでください)</em><br />
           <%= f.text_field :phone_number, autofocus: true, autocomplete: "phone_number", class:"form-control" %>
         </div>
 
