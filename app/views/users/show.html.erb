@@ -73,7 +73,7 @@
         <%= link_to "削除", user_path(@user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %>
 
         <% if @user.leave_at == nil %>
-          <%= link_to "退会", soft_destroy_path(current_user.id), method: :post, data: { confirm: '本当に退会しますか？' } %><br>
+          <%= link_to "退会", soft_destroy_path(@user.id), method: :post, data: { confirm: '本当に退会しますか？' } %><br>
         <% end %>
 
         <%= link_to "コレクション", posts_path %> <br>
