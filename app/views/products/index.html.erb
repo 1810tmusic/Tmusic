@@ -1,1 +1,26 @@
 
+<%= link_to "logout", destroy_user_session_path, method: :delete %>
+
+<%= link_to "show", user_path(current_user.id) %>
+
+<p>search</p>
+<%= form_tag(products_path, :method => 'get') do %>
+<%= text_field_tag :search %>
+<%= submit_tag '"Search', :product_name => nil %>
+<% end %>
+
+<div class="products">
+<% @products.each do |product| %>
+<div class="product">
+<div class="image"></div>
+<div class="product_information">
+<div class="product_name"><p><%= product.product_name %></p></div>
+<div class="artist_name"><P>アーティスト名</P></div>
+<div class="product_stock"><%= product.stock %></div>
+<div class="product_price"><p class="kakaku">価格</p><p>¥<%= product.prices %></p></div>
+</div>
+<button class="cart"><%= link_to 'カート', add_cart_path(product.id, product_id: product.id), method: :post %></button>
+<%= link_to "show", product_path(product.id) %>
+</div>
+<% end %>
+</div>

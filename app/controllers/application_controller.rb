@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-	protect_from_forgery with: :exception
+
 
 	helper_method :current_cart
 
@@ -7,10 +7,11 @@ class ApplicationController < ActionController::Base
 		if Cart.find_by(user_id: current_user.id, done: false).present?
 			@cart = Cart.find_by(user_id: current_user.id, done: false)
 		else
-			@cart = Cart.create(user_id: current_user.id, done: false)
+			@cart = Cart.create(user_id: current_user.id, done: false, destination_id: 1)
+			@cart.save!
+			binding.pry
 		end
 	end
-
 	def after_sign_in_path_for(resource)
 		user_path(@user)
 	end

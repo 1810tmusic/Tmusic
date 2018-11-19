@@ -1,3 +1,4 @@
+
 <% if notice %>
   <%= notice %>
 <% end %>
@@ -14,4 +15,5 @@
   <%= link_to "購入", purchase_path(@cart.id), method: :post %>
 <% else %>
   購入はできません（現在のカートとは異なるカートを表示しています）
+
 <% end %>
