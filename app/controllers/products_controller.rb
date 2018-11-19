@@ -3,6 +3,7 @@ class ProductsController < ApplicationController
 	# before_action :authenticate_user!
 
 	def top
+		@products = Product.includes(:prices).all
 	end
 
 	def new

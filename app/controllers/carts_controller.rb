@@ -9,12 +9,14 @@ class CartsController < ApplicationController
 			@cart_item.update(count: @cart_item.count + 1)
 			@cart_item.save
 		end
-
+  
 		redirect_to cart_path(current_cart.id)
 	end
 
 	def show
-		@cart_items = current_cart.cart_items
+		# URLのIDと表示するカートのIDを一致させるために必要です
+		@cart = Cart.find(params[:id])
+		@cart_items = @cart.cart_items
 	end
 
 	def update
