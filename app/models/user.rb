@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :carts, foreign_key: "user_id"
   has_many :histories, foreign_key: "user_id"
 
+  validates :name_kana, presence: true, format: { with: /\A[\p{katakana}\p{blank}ー－]+\z/, message: '名前(カナ)はカタカナで入力して下さい。' }
 
 
   # 論理削除ユーザーのログイン禁止
