@@ -13,10 +13,21 @@
       <div class="logo">Tumic(logo)</div>
 
       <% if user_signed_in? %>
-        <div class="userinfo">
-          <p>こんにちは、<%= current_user.name %>さん</p>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %>
-        </div>
+        <div class="dropdown">
+        ログイン：
+          <a href="#" data-toggle="dropdown" role="button" aria-expanded="false">
+            <%= current_user.name %>さん
+            <span class="caret"></span>
+          </a>
+
+          <ul class="dropdown-menu" role="menu">
+            <li role="presentation"><%= link_to "マイページ", user_path(current_user) %></li>
+            <li role="presentation"><%= link_to "コレクション", user_posts_path(current_user) %></li>
+            <li role="presentation"><%= link_to "購入履歴", user_histories_path(current_user) %></li>
+            <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
+          </ul>
+      </div>
+
 
       <% else %>
         <div class="button">
