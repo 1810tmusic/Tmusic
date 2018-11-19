@@ -15,6 +15,6 @@ class Product < ApplicationRecord
 	has_many :discs,inverse_of: :product
 	  accepts_nested_attributes_for :discs, reject_if: :all_blank, allow_destroy: true
 
-	has_many :cart_items, foreign_key: "product_id"
+	has_many :cart_items
 
 end
