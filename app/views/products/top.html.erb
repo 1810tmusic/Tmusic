@@ -35,7 +35,7 @@
           <tr>
             <td>
               <% if product.stock != 0 %>
-                <%= link_to "カートに追加", add_to_cart_path(product.id), method: :post %>
+                <%= link_to "カートに追加", add_to_cart_path(product.id, product_id: product.id), method: :post %>
               <% else %>
                 <%= "売り切れです" %>
               <% end %>

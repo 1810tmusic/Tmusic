@@ -21,7 +21,7 @@ class CartsController < ApplicationController
 		@cart_item = current_cart.cart_items.find(params[:id])
 		@cart_item.update(count: params[:cart_item][:count].to_i)
 		if @cart_item.count == 0
-			@cart_item.destroy
+		@cart_item.destroy
 		end
 		redirect_to current_cart
 	end
