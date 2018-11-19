@@ -1,8 +1,17 @@
-<%= item.product.product_name %>
-<%= link_to "delete", delete_item_path(item), method: :delete %>
-<%= form_for item, url: update_items_path(item, product_id: item.product.id), method: :patch do |form| %>
-<%= form.number_field :count, min:0 %>
-<%= submit_tag %>
+<% if notice %>
+  <%= notice %>
 <% end %>
+
+<% @cart_items.each do |item| %>
+  <%= item.product.product_name %>
+  <%= link_to "delete", delete_item_path(item), method: :delete %>
+  <%= form_for item, url: update_items_path(item, product_id: item.product.id), method: :patch do |form| %>
+    <%= form.number_field :count, min:0 %>
+    <%= submit_tag %>
+  <% end %>
 <% end %>
-<%= link_to "index", root_path %>
+<% if @cart.id == current_cart.id %>
+  <%= link_to "購入", purchase_path(@cart.id), method: :post %>
+<% else %>
+  購入はできません（現在のカートとは異なるカートを表示しています）
+<% end %>

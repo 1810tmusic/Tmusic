@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-	before_action :setup_cart_item!, only: [:add_item]
+	before_action :setup_cart_items!, only: [:add_item]
 
 	def add_item
 		if @cart_item.blank?
@@ -9,12 +9,13 @@ class CartsController < ApplicationController
 			@cart_item.update(count: @cart_item.count + 1)
 			@cart_item.save
 		end
-
-		redirect_to current_cart
+		redirect_to cart_path(current_cart.id)
 	end
 
 	def show
-		@cart_items = current_cart.cart_items
+		# URLのIDと表示するカートのIDを一致させるために必要です
+		@cart = Cart.find(params[:id])
+		@cart_items = @cart.cart_items
 	end
 
 	def update
