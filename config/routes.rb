@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   get '/' => 'products#top'
   post '/products/:id/add_to_cart' => 'carts#add_item', as: "add_cart"
   get '/products/:id/post_users' => 'posts#posted_users', as: "post_users"
-  delete '/carts/:id' => 'carts#delete_item', as: "delete_item"
+  delete '/delete_item/:id' => 'carts#delete_item', as: "delete_item"
+  patch '/update_item/:id' => 'carts#update', as: "update_items"
+
 
   
   # カート画面の購入確定ボタンを押した時のアクション
@@ -31,5 +33,6 @@ Rails.application.routes.draw do
   get 'users/:id/destination/edit' => 'users#destination_edit', as: "destination_edit"
   patch 'users/:id/destination/update' =>'users#destination_update', as: "destination_update"
   delete 'users/:id/destination/destroy' => 'users#destination_destroy', as: "destination_destroy"
+
 
 end

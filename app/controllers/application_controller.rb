@@ -4,12 +4,11 @@ class ApplicationController < ActionController::Base
 	helper_method :current_cart
 
 	def current_cart
-	  if session[:cart_id]
-	  	@cart = Cart.find(session[:cart_id])
-	  else
-	  	@cart = Cart.create
-	  	session[:cart_id] = @cart.id
-	  end
+		if Cart.find_by(user_id: current_user.id, done: false).present?
+			@cart = Cart.find_by(user_id: current_user.id, done: false)
+		else
+			@cart = Cart.create(user_id: current_user.id, done: false)
+		end
 	end
 
 	def after_sign_in_path_for(resource)

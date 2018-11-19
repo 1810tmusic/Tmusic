@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
 		@price = @product_new.prices.build
 	end
 
-
 	def index
 
 	end
