@@ -13,21 +13,16 @@
 ActiveRecord::Schema.define(version: 2018_11_14_064013) do
 
   create_table "artists", force: :cascade do |t|
-    t.string "artist_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "cart_id"
-    t.integer "count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "carts", force: :cascade do |t|
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "done", default: false
@@ -46,14 +41,11 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
   end
 
   create_table "discs", force: :cascade do |t|
-    t.integer "disc_no"
-    t.integer "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "genres", force: :cascade do |t|
-    t.string "genre_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -72,14 +64,11 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
   end
 
   create_table "labels", force: :cascade do |t|
-    t.string "label_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer "row_order"
-    t.text "comment"
     t.integer "product_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
@@ -87,19 +76,11 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
   end
 
   create_table "prices", force: :cascade do |t|
-    t.integer "price"
-    t.integer "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
-    t.text "product_name"
-    t.string "product_image_id"
-    t.integer "stock"
-    t.integer "artist_id"
-    t.integer "label_id"
-    t.integer "genre_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
