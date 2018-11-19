@@ -13,23 +13,24 @@
 ActiveRecord::Schema.define(version: 2018_11_14_064013) do
 
   create_table "artists", force: :cascade do |t|
-    t.string "artist_name", null: false
+    t.string "artist_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.integer "product_id", null: false
-    t.integer "cart_id", null: false
-    t.integer "count", default: 1
+    t.integer "product_id"
+    t.integer "cart_id"
+    t.integer "count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "carts", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "done", default: false
     t.integer "destination_id"
   end
 
@@ -45,14 +46,14 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
   end
 
   create_table "discs", force: :cascade do |t|
-    t.integer "disc_no", null: false
-    t.integer "product_id", null: false
+    t.integer "disc_no"
+    t.integer "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "genres", force: :cascade do |t|
-    t.string "genre_name", null: false
+    t.string "genre_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -71,7 +72,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
   end
 
   create_table "labels", force: :cascade do |t|
-    t.string "label_name", null: false
+    t.string "label_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -86,22 +87,21 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
   end
 
   create_table "prices", force: :cascade do |t|
-    t.integer "price", null: false
-    t.integer "product_id", null: false
+    t.integer "price"
+    t.integer "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
-    t.text "product_name", null: false
+    t.text "product_name"
     t.string "product_image_id"
-    t.integer "stock", null: false
-    t.integer "artist_id", null: false
-    t.integer "label_id", null: false
-    t.integer "genre_id", null: false
+    t.integer "stock"
+    t.integer "artist_id"
+    t.integer "label_id"
+    t.integer "genre_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_name"], name: "index_products_on_product_name"
   end
 
   create_table "songs", force: :cascade do |t|
