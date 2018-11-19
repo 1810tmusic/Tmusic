@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_064013) do
     t.datetime "updated_at", null: false
     t.boolean "done", default: false
     t.integer "destination_id"
+    t.boolean "done", default: false
   end
 
   create_table "destinations", force: :cascade do |t|
