@@ -1,1 +1,52 @@
+<div class="container">
+	<div class="row">
+		<div class="col-lg-4">
+			<!-- image -->
+			<%= attachment_image_tag @product_new, :product_image_id ,:fill,50,50,format:'jpg',fallback: "noimage.jpg" %>
 
+
+			<h4>シングル/アルバム名</h4>
+				<%= @product.product_name %>
+
+			<h4>アーティスト名</h4>
+				<%= @product.artist.artist_name %>
+
+			<h4>レーベル名</h4>
+				<%= @product.label.label_name %>
+
+			<h4>ジャンル名</h4>
+				<%= @product.genre.genre_name %>
+		</div>
+
+
+        <!-- discのHTMLを表示させてる　　 -->
+        <div class="col-lg-8">
+        	<p>ディスク No.</p>
+        	 <p>曲 No.</p>
+        	 <p>曲名</p>
+
+   			<% @product.discs.each do |disc| %>
+   					<div><%= disc.disc_no %></div>
+   				<% disc.songs.each do |song| %>
+   					<div><%= song.song_no %></div>
+   					<div><%= song.song %></div>
+   				<% end %>
+   			<% end %>
+
+
+			<h4>在庫数</h4>
+			<%= @product.stock %>
+
+			<h4>価格</h4>
+				<% @product.prices.each do |price| %>
+					<%= price.price %>
+				<% end %>
+
+		</div>
+
+			<%= link_to "編集",edit_product_path(@product),class: "label label-success label-default" %>
+			<%= link_to "削除",product_path,method: :delete,date: {confirm: '削除しますか？'},class: "label label-danger label-default" %>
+
+		</div>
+	</div>
+</div>
