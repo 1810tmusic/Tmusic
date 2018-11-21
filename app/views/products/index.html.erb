@@ -69,9 +69,25 @@
                           <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
                         </button>
                       <% end %>
-                      <button class="btn btn-info btn-xs">
-                        <span class="glyphicon glyphicon-music" aria-hidden="true"></span> マイコレ追加
-                      </button>
+                      <!-- マイコレクション追加ボタン -->
+                      <!-- 追加済み時 -->
+                      <% if product.posted_by?(current_user) %>
+                        <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+                          <button class="btn btn-danger btn-xs" id="<%= product.id %>">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> マイコレ削除
+                          </button>
+                        <% end %>
+                      <!-- 追加済み時おわり -->
+                      <!-- 未追加時 -->
+                      <% else %>
+                        <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+                          <button class="btn btn-info btn-xs" id="<%= product.id %>">
+                            <span class="glyphicon glyphicon-music" aria-hidden="true"></span> マイコレ追加
+                          </button>
+                        <% end %>
+                      <% end %>
+                      <!-- 未追加時おわり -->
+                      <!-- マイコレクション追加ボタンおわり -->
                     <% end %>
                     <!-- ユーザーログイン時おわり -->
                   <!-- 非ログイン時 -->
