@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
 	end
 
 	def index
-		@products = Product.all.search(params[:search])
+		@products = Product.includes(:prices).page(params[:page]).per(24).search(params[:search])
 	end
 
 	def show

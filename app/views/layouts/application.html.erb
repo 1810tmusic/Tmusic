@@ -9,35 +9,106 @@
   </head>
 
   <body>
-    <header class="clearfix">
-      <div class="logo">Tumic(logo)</div>
-
-      <% if user_signed_in? %>
-        <div class="dropdown">
-        ログイン：
-          <a href="#" data-toggle="dropdown" role="button" aria-expanded="false">
-            <%= current_user.name %>さん
-            <span class="caret"></span>
-          </a>
-
-          <ul class="dropdown-menu" role="menu">
-            <li role="presentation"><%= link_to "マイページ", user_path(current_user) %></li>
-            <li role="presentation"><%= link_to "コレクション", user_posts_path(current_user) %></li>
-            <li role="presentation"><%= link_to "購入履歴", user_histories_path(current_user) %></li>
-            <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
-          </ul>
-      </div>
-
-
-      <% else %>
-        <div class="button">
-          <%= link_to "新規登録", new_user_registration_path, class: "sign_up btn" %>
-          <%= link_to "ログイン", new_user_session_path, class: "sign_in btn" %>
-        </div>
-      <% end %>
+<!-- ヘッダー -->
+    <header>
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="/" class="navbar-brand">
+              Tmusic
+            </a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <!-- 検索フォーム -->
+            <%= form_tag(products_path, :method => 'get', class:"navbar-form navbar-left") do %>
+              <div class="form-group">
+                <%= text_field_tag :search, '', class:"form-control", placeholder:"商品名を検索" %>
+                <%= button_tag :product_name => nil, class:"btn btn-default" do %>
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <% end %>
+              </div>
+            <% end %>
+            <% if user_signed_in? %>
+              <!-- 管理者ログイン時 -->
+              <% if current_user.admin %>
+                <ul class="nav navbar-nav navbar-left">
+                  <li>
+                    <%= link_to "商品一覧", products_path %>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <p class="navbar-text">
+                    こんにちは
+                  </p>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      <%= current_user.name %> さん(管理者メニュー)
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li role="presentation"><%= link_to "商品新規登録", new_product_path %></li>
+                      <li role="presentation"><%= link_to "ユーザー一覧", users_path %></li>
+                      <li role="presentation"><%= link_to "購入履歴一覧", histories_path %></li>
+                      <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
+                    </ul>
+                  </li>
+                </ul>
+              <!-- 管理者ログイン時おわり -->
+              <!-- ユーザーログイン時 -->
+              <% else %>
+                <ul class="nav navbar-nav navbar-left">
+                  <li>
+                    <%= link_to "商品一覧", products_path %>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <p class="navbar-text">
+                    こんにちは
+                  </p>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      <%= current_user.name %> さん
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li role="presentation"><%= link_to "マイページ", user_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "コレクション", user_posts_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "購入履歴", user_histories_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
+                    </ul>
+                  </li>
+                  <% if current_cart %>
+                    <li>
+                      <%= link_to "カートをみる", current_cart %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            <!-- ユーザーログイン時おわり -->
+            <!-- 非ログイン時 -->
+            <% else %>
+              <ul class="nav navbar-nav navbar-left">
+                <li>
+                  <%= link_to "商品一覧", products_path %>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <%= link_to "新規登録", new_user_registration_path %>
+                </li>
+                <li>
+                  <%= link_to "ログイン", new_user_session_path %>
+                </li>
+              </ul>
+            <% end %>
+            <!-- 非ログイン時おわり -->
+          </div>
+        </div> <!-- /container -->
+      </nav>
     </header>
+<!-- ヘッダーおわり -->
 
-    <main>
+    <!--
       <div class="flash">
         <% if flash[:notice] %>
           <div class="flash">
@@ -45,11 +116,24 @@
           </div>
         <% end %>
       </div>
-        <%= yield %>
+    -->
+
+    <main>
+      <%= yield %>
     </main>
 
+<!-- フッター -->
     <footer>
-      <div class="logo">Tmusic(logo)</div>
+      <div class="footer">
+        <div class="container footer-container">
+          <div class="footer-header">
+            <span class="footer-brand">
+              Tmusic
+            </span>
+          </div>
+        </div>
+      </div>
     </footer>
+<!-- フッターおわり -->
   </body>
 </html>

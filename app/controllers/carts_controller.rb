@@ -15,17 +15,20 @@ class CartsController < ApplicationController
 	end
 
 	def show
-		# URLのIDと表示するカートのIDを一致させるために必要です
-		@cart = Cart.find(params[:id])
-		@cart_items = @cart.cart_items
+		@cart_items = current_cart.cart_items
 	end
 
 	def update
 		@cart_item = current_cart.cart_items.find(params[:id])
 		@cart_item.update(count: params[:cart_item][:count].to_i)
 		if @cart_item.count == 0
-		@cart_item.destroy
+		  @cart_item.destroy
 		end
+		redirect_to current_cart
+	end
+
+	def update_cart_destination
+		current_cart.update(cart_params)
 		redirect_to current_cart
 	end
 
@@ -45,4 +48,7 @@ class CartsController < ApplicationController
 	@cart_item = current_cart.cart_items.find_by(product_id: params[:product_id])
 	end
 
+	def cart_params
+		params.require(:cart).permit(:destination_id)
+	end
 end

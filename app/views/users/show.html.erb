@@ -1,88 +1,195 @@
+<h1>ユーザー詳細</h1>
+
 <div class="container">
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
 
-      <h2> <%= @user.name %>さんのページ </h2>
+<div class="row">
 
-
-      <table>
-          <tr>
-            <th> 名前 ( 漢字 ）</th>
-            <td class="list"><%= @user.name %></td>
-          </tr>
-
-          <tr>
-            <th> 名前 ( カナ ）</th>
-            <td class="list"><%= @user.name_kana %></td>
-          </tr>
-
-          <tr>
-            <th> ユーザー名 </th>
-            <td class="list"><%= @user.nickname %></td>
-          </tr>
-
-          <tr>
-            <th> 生年月日 </th>
-            <td class="list">
-              <%= @user.birthday %>( <%= @age %>歳 )
-            </td>
-          </tr>
-
-          <tr>
-            <th> 住所 </th>
-            <td class="list">
-              〒<%= @user.postal_code %><br>
-              <%= @user.address %>
-            </td>
-          </tr>
-          <% @destinations.each_with_index do |destination,i| %>
-            <tr>
-              <th> 配送先 <%= i + 1 %></th>
-              <td class="list">
-                名前： <%= destination.name %> <br>
-                住所： <br>
-                  〒<%= destination.postal_code %> <br>
-                  <%= destination.address %> <br>
-              </td>
-            </tr>
+<div class="col-md-9">
+  <table class="users-table">
+    <!-- 管理者ログイン時のみ表示 -->
+    <% if current_user.admin %>
+      <tr>
+        <th>
+          ユーザーID
+        </th>
+        <td>
+          <%= @user.id %>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          会員ステータス
+        </th>
+        <td>
+          <% if @user.leave_at == nil %>
+            <% if @user.admin %>
+              <h4><span class="label label-primary"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 管理者ユーザー</span></h4>
+            <% else %>
+              <h4><span class="label label-warning"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> 一般ユーザー</span></h4>
+            <% end %>
+          <% else %>
+            <h4><span class="label label-default"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> 退会済</span></h4>
           <% end %>
-
-          <tr>
-            <th> 電話番号 </th>
-            <td class="list"><%= @user.phone_number %></td>
-          </tr>
-
-          <tr>
-            <th> メールアドレス </th>
-            <td class="list"><%= @user.email %></td>
-          </tr>
-
-          <% if @user.leave_at != nil %>
-            <tr>
-              <th> 退会日時 </th>
-              <td class="list"><%= @user.leave_at %></td>
-            </tr>
-          <% end %>
-
-      </table>
-
-
-        <%= link_to "編集", edit_user_path(@user), class:"btn btn-default" %>
-
-
-        <%= link_to "削除", user_path(@user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %>
-
-        <% if @user.leave_at == nil %>
-          <%= link_to "退会", soft_destroy_path(@user.id), method: :post, data: { confirm: '本当に退会しますか？' } %><br>
+        </td>
+      </tr>
+      <% if @user.leave_at != nil %>
+        <tr>
+          <th>
+            退会日時
+          </th>
+          <td>
+            <%= @user.leave_at %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    <!-- 管理者ログイン時のみ表示おわり -->
+    <tr>
+      <th>
+        名前
+      </th>
+      <td>
+        <%= @user.name %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        名前（カナ）
+      </th>
+      <td>
+        <%= @user.name_kana %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        ユーザー名
+      </th>
+      <td>
+        <%= @user.nickname %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        生年月日
+      </th>
+      <td>
+        <%= @user.birthday %> (<%= @age %>歳)
+      </td>
+    </tr>
+    <tr>
+      <th>
+        住所
+      </th>
+      <td>
+        〒<%= @user.postal_code %><br>
+        <%= @user.address %>
+      </td>
+    </tr>
+    <% @destinations.each_with_index do |destination,i| %>
+    <tr>
+      <th>
+        <% if @destinations.count == 1 %>
+          配送先
+        <% else %>
+          配送先<%= i + 1 %>
         <% end %>
-
-        <%= link_to "コレクション", user_posts_path(@user.id) %> <br>
-        <%= link_to "購入履歴", histories_path %> <br>
-      </div>
-
-
+      </th>
+      <td>
+        名前： <%= destination.name %><br>
+        住所：<br>
+        〒<%= destination.postal_code %><br>
+        <%= destination.address %><br>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <th>
+        電話番号
+      </th>
+      <td>
+        <%= @user.phone_number %>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        メールアドレス
+      </th>
+      <td>
+        <%= @user.email %>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="col-md-3">
+  <div class="form-group">
+    <!-- 購入履歴ボタン -->
+    <div class="user-actions-button">
+      <%= link_to user_histories_path(@user.id), style: "text-decoration: none;" do %>
+        <button class="btn btn-primary form-control">
+          <span class="glyphicon glyphicon-time" aria-hidden="true"></span> 購入履歴
+        </button>
+      <% end %>
     </div>
+    <!-- 購入履歴ボタンおわり -->
+    <!-- マイコレクションボタン -->
+    <div class="user-actions-button">
+      <%= link_to user_posts_path(@user.id), style: "text-decoration: none;" do %>
+        <button class="btn btn-info form-control">
+          <span class="glyphicon glyphicon-music" aria-hidden="true"></span> マイコレクション
+        </button>
+      <% end %>
+    </div>
+    <!-- マイコレクションボタンおわり -->
+    <!-- 編集ボタン -->
+    <div class="user-actions-button">
+      <%= link_to edit_user_path(@user), style: "text-decoration: none;" do %>
+        <button class="btn btn-success form-control">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 編集
+        </button>
+      <% end %>
+    </div>
+    <!-- 編集ボタンおわり -->
+    <!-- 退会ボタン -->
+    <div class="user-actions-button">
+      <% unless @user.admin %>
+        <% if @user.leave_at == nil %>
+          <%= link_to soft_destroy_path(@user.id), method: :post, data: { confirm: '本当に退会しますか？'}, style: "text-decoration: none;" do %>
+            <button class="btn btn-default form-control">
+              <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> 退会
+            </button>
+          <% end %>
+        <% else %>
+          <button class="btn btn-default form-control" disabled="disabled">
+            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 退会済
+          </button>
+        <% end %>
+      <% else %>
+        <button class="btn btn-default form-control" disabled="disabled">
+          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 管理者は退会できません
+        </button>
+      <% end %>
+    </div>
+    <!-- 退会ボタンおわり -->
+    <!-- 物理削除ボタン -->
+    <% if current_user.admin %>
+      <div class="user-actions-button">
+        <% unless @user.admin %>
+          <%= link_to user_path(@user), method: :delete, data: { confirm: '本当に削除しますか？' }, style: "text-decoration: none;" do %>
+            <button class="btn btn-danger form-control">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 完全に削除
+            </button>
+          <% end %>
+        <% else %>
+          <button class="btn btn-default form-control" disabled="disabled">
+            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 管理者は削除できません
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+    <!-- 物理削除ボタンおわり -->
   </div>
 </div>
-<br>
-<br>
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->

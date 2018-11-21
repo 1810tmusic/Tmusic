@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   patch '/update_item/:id' => 'carts#update', as: "update_items"
 
 
-  
+  # カートの配送先変更
+  patch '/carts/:id/update_cart_destination' => 'carts#update_cart_destination', as: 'update_cart_destination'
   # カート画面の購入確定ボタンを押した時のアクション
   post '/carts/:id' => 'histories#create', as: 'purchase'
   # 購入履歴

@@ -9,8 +9,7 @@ class HistoriesController < ApplicationController
     for cart_item in @cart_items
       @product = cart_item.product
       if @product.stock == 0
-        cart_item.count = 0
-        cart_item.save
+        cart_item.destroy
         @cart_item_error_status = "sold_out"
         @cart_item_error_product = cart_item.product.product_name
       elsif @product.stock < cart_item.count
@@ -48,7 +47,7 @@ class HistoriesController < ApplicationController
 
   def show
     @history = History.find(params[:id])
-    @history_cart_items = @history.cart.cart_items.page(params[:page]).per(1)
+    @history_cart_items = @history.cart.cart_items.page(params[:page]).per(10)
   end
 
   def update
@@ -65,9 +64,9 @@ class HistoriesController < ApplicationController
   def index
     if params[:id]
       @user = User.find(params[:id])
-      @histories = @user.histories.page(params[:page]).per(1)
+      @histories = @user.histories.page(params[:page]).per(10)
     else
-      @histories = History.page(params[:page]).per(1)
+      @histories = History.page(params[:page]).per(10)
     end
   end
 
