@@ -76,7 +76,7 @@
           <%= link_to "退会", soft_destroy_path(@user.id), method: :post, data: { confirm: '本当に退会しますか？' } %><br>
         <% end %>
 
-        <%= link_to "コレクション", posts_path %> <br>
+        <%= link_to "コレクション", user_posts_path(@user.id) %> <br>
         <%= link_to "購入履歴", histories_path %> <br>
       </div>
 

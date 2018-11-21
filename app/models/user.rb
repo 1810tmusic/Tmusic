@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :destinations, foreign_key: "user_id"
   has_many :posts, foreign_key: "user_id"
-  has_many :post_products, through: :posts, source: :product
+  has_many :products, through: :posts, source: :product
   has_many :carts, foreign_key: "user_id"
   has_many :histories, foreign_key: "user_id"
 
