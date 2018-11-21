@@ -7,5 +7,9 @@
 }
 
 .users-table th, .users-table td {
-  border: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.user-actions-button {
+  margin-bottom: 5px;
 }

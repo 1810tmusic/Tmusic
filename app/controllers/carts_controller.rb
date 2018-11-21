@@ -26,6 +26,11 @@ class CartsController < ApplicationController
 		redirect_to current_cart
 	end
 
+	def update_cart_destination
+		current_cart.update(cart_params)
+		redirect_to current_cart
+	end
+
 	def delete_item
 		@cart_item = current_cart.cart_items.find(params[:id])
 		@cart_item.destroy
@@ -40,5 +45,9 @@ class CartsController < ApplicationController
 
 	def setup_cart_items!
 	@cart_item = current_cart.cart_items.find_by(product_id: params[:product_id])
+	end
+
+	def cart_params
+		params.require(:cart).permit(:destination_id)
 	end
 end

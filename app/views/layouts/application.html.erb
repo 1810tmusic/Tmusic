@@ -11,7 +11,7 @@
   <body>
 <!-- ヘッダー -->
     <header>
-      <nav class="navbar navbar-default navbar-static-top">
+      <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
             <a href="/" class="navbar-brand">
@@ -28,28 +28,70 @@
                 <% end %>
               </div>
             <% end %>
-            <!-- ログイン時 -->
             <% if user_signed_in? %>
-              <ul class="nav navbar-nav navbar-right">
-                <p class="navbar-text">
-                  こんにちは
-                </p>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <%= current_user.name %> さん
-                    <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li role="presentation"><%= link_to "マイページ", user_path(current_user) %></li>
-                    <li role="presentation"><%= link_to "コレクション", user_posts_path(current_user) %></li>
-                    <li role="presentation"><%= link_to "購入履歴", user_histories_path(current_user) %></li>
-                    <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
-                  </ul>
-                </li>
-              </ul>
-            <!-- ログイン時おわり -->
+              <!-- 管理者ログイン時 -->
+              <% if current_user.admin %>
+                <ul class="nav navbar-nav navbar-left">
+                  <li>
+                    <%= link_to "商品一覧", products_path %>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <p class="navbar-text">
+                    こんにちは
+                  </p>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      <%= current_user.name %> さん(管理者メニュー)
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li role="presentation"><%= link_to "商品新規登録", new_product_path %></li>
+                      <li role="presentation"><%= link_to "ユーザー一覧", users_path %></li>
+                      <li role="presentation"><%= link_to "購入履歴一覧", histories_path %></li>
+                      <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
+                    </ul>
+                  </li>
+                </ul>
+              <!-- 管理者ログイン時おわり -->
+              <!-- ユーザーログイン時 -->
+              <% else %>
+                <ul class="nav navbar-nav navbar-left">
+                  <li>
+                    <%= link_to "商品一覧", products_path %>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <p class="navbar-text">
+                    こんにちは
+                  </p>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      <%= current_user.name %> さん
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li role="presentation"><%= link_to "マイページ", user_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "コレクション", user_posts_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "購入履歴", user_histories_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
+                    </ul>
+                  </li>
+                  <% if current_cart %>
+                    <li>
+                      <%= link_to "カートをみる", current_cart %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            <!-- ユーザーログイン時おわり -->
             <!-- 非ログイン時 -->
             <% else %>
+              <ul class="nav navbar-nav navbar-left">
+                <li>
+                  <%= link_to "商品一覧", products_path %>
+                </li>
+              </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li>
                   <%= link_to "新規登録", new_user_registration_path %>
@@ -76,19 +118,21 @@
       </div>
     -->
 
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
 
 <!-- フッター -->
     <footer>
-      <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-          <div class="navbar-header">
-            <span class="navbar-brand">
+      <div class="footer">
+        <div class="container footer-container">
+          <div class="footer-header">
+            <span class="footer-brand">
               Tmusic
             </span>
           </div>
         </div>
-      </nav>
+      </div>
     </footer>
 <!-- フッターおわり -->
   </body>

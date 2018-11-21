@@ -47,7 +47,7 @@ class HistoriesController < ApplicationController
 
   def show
     @history = History.find(params[:id])
-    @history_cart_items = @history.cart.cart_items.page(params[:page]).per(1)
+    @history_cart_items = @history.cart.cart_items.page(params[:page]).per(10)
   end
 
   def update
@@ -64,9 +64,9 @@ class HistoriesController < ApplicationController
   def index
     if params[:id]
       @user = User.find(params[:id])
-      @histories = @user.histories.page(params[:page]).per(1)
+      @histories = @user.histories.page(params[:page]).per(10)
     else
-      @histories = History.page(params[:page]).per(1)
+      @histories = History.page(params[:page]).per(10)
     end
   end
 

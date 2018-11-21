@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 		if Cart.find_by(user_id: current_user.id, done: false).present?
 			@cart = Cart.find_by(user_id: current_user.id, done: false)
 		else
-			@cart = Cart.create(user_id: current_user.id, done: false, destination_id: 1)
+			@cart = Cart.create(user_id: current_user.id, done: false)
 			@cart.save
 		end
 	end

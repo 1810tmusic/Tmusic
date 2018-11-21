@@ -120,16 +120,18 @@
         </td>
       </tr>
       <!-- update -->
-      <tr>
-        <td>
-          <%= form_for(@history) do |f| %>
-            <div class="form-group">
-              <%= f.select :shipping_status, History.shipping_statuses.keys.to_a, {}, class:"form_control" %>
-              <%= f.submit "変更する", class:"btn btn-default btn-xs" %>
-            </div>
-          <% end %>
-        </td>
-      </tr>
+      <% if current_user.admin %>
+        <tr>
+          <td>
+            <%= form_for(@history) do |f| %>
+              <div class="form-group">
+                <%= f.select :shipping_status, History.shipping_statuses.keys.to_a, {}, class:"form_control" %>
+                <%= f.submit "変更する", class:"btn btn-default btn-xs" %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
@@ -193,10 +195,15 @@
       <% end %>
     </tbody>
   </table>
-  <%= paginate @history_cart_items %>
 </div>
 
 </div> <!-- /row -->
+
+<div class="row">
+  <div class="col-md-12 pagination">
+    <%= paginate @history_cart_items %>
+  </div>
+</div>
 
 <div class="row">
 

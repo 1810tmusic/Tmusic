@@ -1,19 +1,167 @@
+<h1>カート画面</h1>
+
+<div class="container">
+
+<div class="row">
 
 <% if notice %>
   <%= notice %>
 <% end %>
 
-<% @cart_items.each do |item| %>
-  <%= item.product.product_name %>
-  <%= link_to "delete", delete_item_path(item), method: :delete %>
-  <%= form_for item, url: update_items_path(item, product_id: item.product.id), method: :patch do |form| %>
-    <%= form.number_field :count, min:0 %>
-    <%= submit_tag %>
-  <% end %>
-<% end %>
-<% if @cart.id == current_cart.id && !@cart.cart_items.empty? %>
-  <%= link_to "購入", purchase_path(@cart.id), method: :post %>
-<% else %>
-  購入はできません
+<!-- カート内容 -->
+<div class="col-md-9">
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>
+        </th>
+        <th>
+          商品名
+        </th>
+        <th>
+          アーティスト名
+        </th>
+        <th>
+          単体価格
+        </th>
+        <th class="cart-items-counts">
+          枚数
+        </th>
+        <th>
+        </th>
+        <th>
+          小計
+        </th>
+        <th>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td>
+            <%= link_to product_path(item.product.id) do %>
+              <div class="product-image-cart">
+                <% if item.product.product_image.present? %>
+                  <%= attachment_image_tag item.product, :image, :fill, 120, 120, format: 'jpeg' %>
+                <% else %>
+                  No Image
+                <% end %>
+              </div>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to product_path(item.product.id) do %>
+              <%= item.product.product_name %>
+            <% end %>
+          </td>
+          <td>
+            <%= item.product.artist.artist_name %>
+          </td>
+          <td>
+            <% item.product.prices.reverse_each do |price| %>
+              &yen;<%= number_with_delimiter(price.price) %>
+              <% break %>
+            <% end %>
+          </td>
+          <td>
+            <%= form_for item, url: update_items_path(item, product_id: item.product.id), method: :patch do |form| %>
+              <div class="form-group form-group-sm">
+                <div class="cart-item-count">
+                  <%= form.number_field :count, min:0, class:"form-control" %>
+                </div>
+          </td>
+          <td>
+                  <%= submit_tag "変更", class:"btn btn-default btn-sm" %>
+              </div>
+            <% end %>
+          </td>
+          <td>
+            <% item.product.prices.reverse_each do |price| %>
+              <% p = price.price %>
+              &yen; <%= number_with_delimiter(item.count * p) %>
+              <% break %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to "削除", delete_item_path(item), method: :delete %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<!-- カート内容おわり-->
 
-<% end %>
+<!-- 総額、配送先、購入ボタン -->
+<div class="col-md-3">
+  <!-- 総額 -->
+  <table class="cart-right">
+    <tr class="total-price-cart">
+      <th>
+        総計:
+      </th>
+      <td>
+        <% @total_price = 0 %>
+        <% current_cart.cart_items.each do |cart_item| %>
+          <% cart_item.product.prices.reverse_each do |price| %>
+            <% p = price.price %>
+            <% @total_price += cart_item.count * p %>
+            <% break %>
+          <% end %>
+        <% end %>
+        &yen; <%= number_with_delimiter(@total_price) %>. -
+      </td>
+    </tr>
+  <!-- 総額おわり -->
+  <!-- 配送先 -->
+    <tr>
+      <th colspan="2">
+        <div class="destination-cart">
+        この購入の配送先
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <%= form_for(current_cart, url: update_cart_destination_path(current_cart.id)) do |d| %>
+        <div class="form-group">
+          <td colspan="2">
+            <%= d.collection_select :destination_id, current_user.destinations.all, :id, :name_and_address, {}, class:"form_control", style:"width: 100%;" %>
+          </td>
+    </tr>
+    <tr>
+          <td colspan="2">
+            <div class="destination-cart-submit">
+              <%= d.submit "変更", class:"btn btn-default btn-sm" %>
+            </div>
+          </td>
+        </div>
+      <% end %>
+    </tr>
+  <!-- 配送先おわり -->
+  <!-- 購入ボタン -->
+    <tr>
+      <td colspan="2">
+        <div class="purchase-cart">
+          <% if @cart.id == current_cart.id && !@cart.cart_items.empty? %>
+            <div class="form-group">
+              <%= link_to purchase_path(current_cart.id), method: :post, style: "text-decoration: none;" do %>
+                <button class="btn btn-warning form-control">
+                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 購入する
+                </button>
+              <% end %>
+            </div>
+          <% else %>
+            購入はできません
+          <% end %>
+        </div>
+      </td>
+    </tr>
+  <!-- 購入ボタンおわり -->
+  </table>
+</div>
+<!-- 総額、配送先、購入ボタンおわり -->
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->
