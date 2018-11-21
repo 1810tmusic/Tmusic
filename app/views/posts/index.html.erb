@@ -10,7 +10,9 @@ form {margin: 0;}
 <th>product</th>
 <th>artist</th>
 <th>comment</th>
+<% if current_user.id === @user.id %>
 <th>edit</th>
+<% end %>
 <th></th>
 </tr>
 </thead>
@@ -31,8 +33,10 @@ form {margin: 0;}
 <th><%= link_to post.product.product_name, product_path(post.product) %></th>
 <th>アーティスト</th>
 <th id="<%= post.id %>"><%= post.comment %></th>
-<th><%= link_to "編集", edit_user_post_path(user_id: current_user.id, id: post.id), remote: true %></th>
-<th><%= link_to "delete", user_post_path(user_id: current_user.id, id: post.id), method: :delete %></th>
+<% if current_user.id === @user.id%>
+<th><%= link_to "編集", edit_user_post_path(user_id: @user.id, id: post.id), remote: true %></th>
+<th><%= link_to "delete", user_post_path(user_id: @user.id, id: post.id), method: :delete %></th>
+<% end %>
 </tr>
 <% end %>
 </tbody>

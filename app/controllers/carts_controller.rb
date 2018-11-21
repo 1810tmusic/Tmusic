@@ -1,4 +1,5 @@
 class CartsController < ApplicationController
+	before_action :authenticate_user!
 	before_action :setup_cart_items!, only: [:add_item]
 
 

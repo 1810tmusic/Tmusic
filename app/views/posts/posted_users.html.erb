@@ -1,3 +1,16 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>nickname</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
 <% @users.each do |user|%>
-<%= link_to user.nickname, user_path(user)%>
+<tr>
+<th><%= link_to user.nickname, user_posts_path(user)%></th>
+<th><%= (Date.today.strftime("%Y%m%d").to_i - user[:birthday].strftime("%Y%m%d").to_i) / 10000 %></th>
+</tr>
 <% end %>
+</tbody>
+</table>
