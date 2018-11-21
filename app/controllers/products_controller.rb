@@ -6,6 +6,7 @@ class ProductsController < ApplicationController
 		@products = Product.includes(:prices).all
 	end
 
+
 	def new
 		@product_new = Product.new
 		@disc = @product_new.discs.build
@@ -15,11 +16,11 @@ class ProductsController < ApplicationController
 	end
 
 	def index
-		@products = Product.all
-
+		@products = Product.all.search(params[:search])
 	end
 
 	def show
+		@product = Product.find(params[:id])
 	end
 
 	def edit

@@ -1,9 +1,10 @@
 class CartsController < ApplicationController
 	before_action :setup_cart_items!, only: [:add_item]
 
+
 	def add_item
 		if @cart_item.blank?
-			@cart_item = current_cart.cart_items.build(product_id: params[:product_id], destinations_id: current_user.destinations.first.id)
+			@cart_item = current_cart.cart_items.build(product_id: params[:product_id])
 			@cart_item.save
 		else
 			@cart_item.update(count: @cart_item.count + 1)
@@ -43,4 +44,5 @@ class CartsController < ApplicationController
 	def setup_cart_items!
 	@cart_item = current_cart.cart_items.find_by(product_id: params[:product_id])
 	end
+
 end
