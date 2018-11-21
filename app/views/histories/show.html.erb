@@ -18,7 +18,7 @@
       </tr>
       <tr>
         <th>
-          購入ユーザー名
+          購入ユーザー氏名
         </th>
         <td>
           <%= @history.cart.user.name %>
@@ -42,7 +42,7 @@
       </tr>
       <tr>
         <th>
-          発送先氏名（かな）
+          発送先氏名（カナ）
         </th>
         <td>
           <%= @history.name_kana %>
@@ -102,19 +102,6 @@
               <div class="progress-bar progress-bar-success" role="progressbar" style="width: 100%;">
                 <%= @history.shipping_status %>
               </div>
-            <% end %>
-          </div>
-        </td>
-      </tr>
-      <!-- フラッシュ -->
-      <tr>
-        <td>
-          <div class="flash-message">
-            <% if notice %>
-              <%= notice %>
-            <% end %>
-            <% if alert %>
-              <%= alert %>
             <% end %>
           </div>
         </td>
