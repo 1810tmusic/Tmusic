@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   # ユーザーが退会ボタンを押して退会した時のアクション（論理削除）
   post '/users/:id/soft_destroy' => 'users#soft_destroy', as: 'soft_destroy'
 
-  
+
   # 配送先
   get 'users/:id/destination' => 'users#destination_index', as: "destination_index"
   post 'users/:id/destination' => 'users#destination_create', as: "destination_create"
