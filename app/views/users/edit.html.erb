@@ -57,8 +57,8 @@ window.onload=function(){
           <%= raw sprintf(f.date_select(
                                   :birthday,
                                   use_month_numbers: true,
-                                  start_year:        1930,
-                                  end_year:          (Time.now.year - 18),
+                                  start_year:        1918,
+                                  end_year:          (Time.now.year),
                                   default:           @user[:birthday],
                                   date_separator: '%s'), '年', '月') + '日' %>
         </td>
