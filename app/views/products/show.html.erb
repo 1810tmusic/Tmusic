@@ -1,26 +1,182 @@
+<h1>商品詳細画面</h1>
+
 <div class="container">
-	<div class="row">
-		<div class="col-lg-4">
-			<!-- image -->
-			<%= attachment_image_tag @product_new, :product_image_id ,:fill,50,50,format:'jpg',fallback: "noimage.jpg" %>
 
+<div class="row">
 
-			<h4>シングル/アルバム名</h4>
+<div class="col-md-4">
+<!-- ジャケット写真 -->
+<div class="product-image-show">
+  <% if @product.product_image.present? %>
+    <%= attachment_image_tag @product, :product_image, :fill, 300, 300, format: 'jpeg' %>
+  <% else %>
+    No Image
+  <% end %>
+</div>
+<!-- ジャケット写真おわり -->
+</div> <!-- /col -->
+
+<div class="col-md-5">
+  <table class="product-show-headline">
+    <tr>
+      <td class="product-show-name">
 				<%= @product.product_name %>
-
-			<h4>アーティスト名</h4>
+      </td>
+    </tr>
+    <tr>
+      <td class="product-show-artist">
 				<%= @product.artist.artist_name %>
+      </td>
+    </tr>
+  </table>
+  <table class="product-show-details">
+    <tr>
+      <td class="product-show-label">
+				レーベル: <%= @product.label.label_name %>
+      </td>
+    </tr>
+    <tr>
+      <td class="product-show-genre">
+				ジャンル: <%= @product.genre.genre_name %>
+      </td>
+    </tr>
+  </table>
+</div> <!-- /col -->
 
-			<h4>レーベル名</h4>
-				<%= @product.label.label_name %>
+<div class="col-md-3">
+  <!-- 価格 -->
+  <div class="product-show-price">
+    <% @product.prices.reverse_each do |price| %>
+      &yen; <%= number_with_delimiter(price.price) %>
+      <% break %>
+    <% end %>
+  </div>
+  <!-- 価格おわり -->
+  <!-- 在庫 -->
+  <div class="product-show-stock">
+    <% if current_user.admin %>
+      在庫数: <%= @product.stock %>
+    <% else %>
+      <% if @product.stock == 0 %>
+        <span class="stock-zero">
+          在庫なし
+        </span>
+      <% elsif @product.stock == 1 %>
+        <span class="stock-one">
+          <p>残り1点</p>
+          <p>ご注文はお早めに！</p>
+        </span>
+      <% else %>
+        <span class="stock-plenty">
+          在庫あり
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+  <!-- 在庫おわり -->
+  <div class="product-actions form-group">
+    <% if user_signed_in? %>
+      <!-- 管理者ログイン時 -->
+      <% if current_user.admin %>
+        <div class="product-show-actions-button">
+          <%= link_to edit_product_path(@product.id), style: "text-decoration: none;" do %>
+            <button class="btn btn-success form-control">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 商品の編集
+            </button>
+          <% end %>
+        </div>
+        <div class="product-show-actions-button">
+          <%= link_to product_path(@product.id), method: :delete, data: { confirm: '本当に削除しますか？' }, style: "text-decoration: none;" do %>
+            <button class="btn btn-danger form-control">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
+            </button>
+          <% end %>
+        </div>
+      <!-- 管理者ログイン時おわり -->
+      <!-- ユーザーログイン時 -->
+      <% else %>
+        <% if @product.stock != 0 %>
+          <div class="product-show-actions-button">
+            <%= link_to add_cart_path(@product.id, product_id: @product.id), method: :post, style: "text-decoration: none;" do %>
+              <button class="btn btn-warning form-control">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> カートに追加
+              </button>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="product-show-actions-button">
+            <button class="btn btn-default form-control" disabled="disabled">
+              <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
+            </button>
+          </div>
+        <% end %>
+        <!-- マイコレクション追加ボタン -->
+        <!-- 追加済み時 -->
+        <% if @product.posted_by?(current_user) %>
+          <div class="product-show-actions-button">
+            <%= link_to post_products_path(@product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+              <button class="btn btn-danger form-control" id="<%= @product.id %>">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= @product.id %>">マイコレ削除</span>
+              </button>
+            <% end %>
+          </div>
+          <!-- 追加済み時おわり -->
+        <!-- 未追加時 -->
+        <% else %>
+          <div class="product-show-actions-button">
+            <%= link_to post_products_path(@product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+              <button class="btn btn-info form-control" id="<%= @product.id %>">
+                <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= @product.id %>">マイコレ追加</span>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+        <!-- 未追加時おわり -->
+        <!-- マイコレクション追加ボタンおわり -->
+      <% end %>
+      <!-- ユーザーログイン時おわり -->
+    <!-- 非ログイン時 -->
+    <% else %>
+      <% if @product.stock != 0 %>
+        <div class="product-show-actions-button">
+          <%= link_to add_cart_path(@product.id, product_id: @product.id), method: :post, style: "text-decoration: none;" do %>
+            <button class="btn btn-warning form-control">
+              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> カートに追加
+            </button>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="product-show-actions-button">
+          <button class="btn btn-default form-control" disabled="disabled">
+            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
+          </button>
+        </div>
+      <% end %>
+    <% end %>
+    <!-- 非ログイン時おわり -->
+    <!-- この商品をコレクションに追加しているユーザー一覧 -->
+    <div class="product-show-actions-button">
+      <%= link_to post_users_path(@product.id), style: "text-decoration: none;" do %>
+        <button class="btn btn-default form-control">
+          <span class="glyphicon glyphicon-user" aria-hidden="true"></span> マイコレユーザー一覧
+        </button>
+      <% end %>
+    </div>
+    <!-- この商品をコレクションに追加しているユーザー一覧おわり -->
+  </div>
+</div> <!-- /col -->
 
-			<h4>ジャンル名</h4>
-				<%= @product.genre.genre_name %>
-		</div>
+</div> <!-- /row -->
 
+<div class="row">
+
+<div class="col-md-12">
+
+<!-- --------------------------------------------------- -->
+<!-- ---------- ここから下の範囲を修正してください ---------- -->
+<!-- --------------------------------------------------- -->
 
         <!-- discのHTMLを表示させてる　　 -->
-        <div class="col-lg-8">
         	<p>ディスク No.</p>
         	 <p>曲 No.</p>
         	 <p>曲名</p>
@@ -33,22 +189,12 @@
    				<% end %>
    			<% end %>
 
+<!-- --------------------------------------------------- -->
+<!-- ---------- ここから上の範囲を修正してください ---------- -->
+<!-- --------------------------------------------------- -->
 
-			<h4>在庫数</h4>
-			<%= @product.stock %>
+</div> <!-- /col -->
 
-			<h4>価格</h4>
-				<% @product.prices.each do |price| %>
-					<%= price.price %>
-				<% end %>
+</div> <!-- /row -->
 
-		</div>
-
-			<%= link_to "編集",edit_product_path(@product),class: "label label-success label-default" %>
-			<%= link_to "削除",product_path,method: :delete,date: {confirm: '削除しますか？'},class: "label label-danger label-default" %>
-
-		</div>
-	</div>
-</div>
-<%= @product.product_name%>
-<%= link_to "この商品を年表に追加しているユーザー一覧", post_users_path(@product) %>
+</div> <!-- /container -->

@@ -7,19 +7,19 @@
 }
 
 .product-image-top {
-  width: 120px;
-  height: 120px;
+  width: 122px;
+  height: 122px;
   background-color: #ccc;
-  line-height: 120px;
+  line-height: 121px;
   text-align: center;
   color: #aaa;
 }
 
 .product-image-index {
-  width: 230px;
-  height: 230px;
+  width: 232px;
+  height: 232px;
   background-color: #ccc;
-  line-height: 230px;
+  line-height: 231px;
   text-align: center;
   color: #aaa;
 }
@@ -27,4 +27,60 @@
 .product-index-box {
   margin-bottom: 50px;
   padding-left: 30px;
+}
+
+.product-image-show {
+  width: 302px;
+  height: 302px;
+  background-color: #ccc;
+  line-height: 301px;
+  text-align: center;
+  color: #aaa;
+}
+
+.product-show-headline {
+  width: 100%;
+  border-bottom: 1px #ccc solid;
+}
+
+.product-show-headline td {
+  padding-bottom: 20px;
+}
+
+.product-show-name {
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.product-show-artist {
+  font-size: large;
+}
+
+.product-show-details td {
+  padding-top: 20px;
+}
+
+.product-show-label, .product-show-genre {
+  font-style: oblique;
+}
+
+.product-show-price {
+  font-size: x-large;
+}
+
+.product-show-stock {
+  margin: 20px;
+  font-size: large;
+}
+
+.stock-zero, .stock-one {
+  color: #900;
+}
+
+.stock-plenty {
+  color: #090;
+}
+
+.product-show-actions-button{
+  margin-bottom: 5px;
 }

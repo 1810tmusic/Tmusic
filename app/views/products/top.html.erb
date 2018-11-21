@@ -25,7 +25,7 @@
     <%= link_to product_path(product.id) do %>
       <div class="product-image-top">
         <% if product.product_image.present? %>
-          <%= attachment_image_tag product, :image, :fill, 120, 120, format: 'jpeg' %>
+          <%= attachment_image_tag product, :product_image, :fill, 120, 120, format: 'jpeg' %>
         <% else %>
           No Image
         <% end %>
