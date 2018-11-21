@@ -1,1 +1,125 @@
+<h1>商品一覧</h1>
 
+<div class="container">
+
+<div class="row">
+
+<% @products.each do |product| %>
+  <div class="col-md-4">
+    <div class="product-index-box">
+      <%= link_to product_path(product.id) do %>
+        <div class="product-image-index">
+          <% if product.product_image.present? %>
+            <%= attachment_image_tag product, :image, :fill, 230, 230, format: 'jpeg' %>
+          <% else %>
+            No Image
+          <% end %>
+        </div>
+      <% end %>
+      <div class="product-table">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <%= link_to product_path(product.id) do %>
+                  <%= product.product_name %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= product.artist.artist_name %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <% product.prices.reverse_each do |price| %>
+                価格: &yen;<%= number_with_delimiter(price.price) %>
+                <% break %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="product-actions">
+                  <% if user_signed_in? %>
+                    <!-- 管理者ログイン時 -->
+                    <% if current_user.admin %>
+                      <%= link_to edit_product_path(product.id), style: "text-decoration: none;" do %>
+                        <button class="btn btn-success btn-xs">
+                          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 商品の編集
+                        </button>
+                      <% end %>
+                      <%= link_to product_path(product.id), method: :delete, style: "text-decoration: none;" do %>
+                        <button class="btn btn-danger btn-xs">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
+                        </button>
+                      <% end %>
+                    <!-- 管理者ログイン時おわり -->
+                    <!-- ユーザーログイン時 -->
+                    <% else %>
+                      <% if product.stock != 0 %>
+                        <%= link_to add_cart_path(product.id, product_id: product.id), method: :post, style: "text-decoration: none;" do %>
+                          <button class="btn btn-warning btn-xs">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> カートに追加
+                          </button>
+                        <% end %>
+                      <% else %>
+                        <button class="btn btn-default btn-xs" disabled="disabled">
+                          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
+                        </button>
+                      <% end %>
+                      <!-- マイコレクション追加ボタン -->
+                      <!-- 追加済み時 -->
+                      <% if product.posted_by?(current_user) %>
+                        <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+                          <button class="btn btn-danger btn-xs" id="<%= product.id %>">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= product.id %>">マイコレ削除</span>                           </button>
+                        <% end %>
+                      <!-- 追加済み時おわり -->
+                      <!-- 未追加時 -->
+                      <% else %>
+                        <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+                          <button class="btn btn-info btn-xs" id="<%= product.id %>">
+                            <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= product.id %>">マイコレ追加</span>
+                          </button>
+                        <% end %>
+                      <% end %>
+                      <!-- 未追加時おわり -->
+                      <!-- マイコレクション追加ボタンおわり -->
+                    <% end %>
+                    <!-- ユーザーログイン時おわり -->
+                  <!-- 非ログイン時 -->
+                  <% else %>
+                    <% if product.stock != 0 %>
+                      <%= link_to add_cart_path(product.id, product_id: product.id), method: :post, style: "text-decoration: none;" do %>
+                        <button class="btn btn-warning btn-xs">
+                          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> カートに追加
+                        </button>
+                      <% end %>
+                    <% else %>
+                      <button class="btn btn-default btn-xs" disabled="disabled">
+                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
+                      </button>
+                    <% end %>
+                  <% end %>
+                  <!-- 非ログイン時おわり -->
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div> <!-- /col-md-2 -->
+<% end %>
+
+</div> <!-- /row -->
+
+<div class="row">
+  <div class="col-md-12 pagination">
+    <%= paginate @products %>
+  </div>
+</div>
+
+</div> <!-- /container -->

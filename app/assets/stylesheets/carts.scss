@@ -1,3 +1,52 @@
 // Place all the styles related to the carts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.cart-table {
+  width: 100%;
+}
+
+.cart-table tr {
+  border-bottom: 1px #000 solid;
+}
+
+.product-image-cart {
+  margin: 10px 0 10px 10px;
+  width: 120px;
+  height: 120px;
+  background-color: #ccc;
+  line-height: 120px;
+  text-align: center;
+  color: #aaa;
+}
+
+.cart-items-counts {
+  width: 80px;
+}
+
+.cart-item-count {
+  padding-top: 14px;
+}
+
+.cart-right {
+  width: 100%;
+}
+
+.total-price-cart {
+  border-bottom: 1px #000 solid;
+  font-size: large;
+  font-weight: bold;
+}
+
+.destination-cart {
+  margin-top: 20px;
+}
+
+.destination-cart-submit {
+  text-align: right;
+}
+
+.purchase-cart {
+  margin-top: 20px;
+  margin-right: 20px;
+}

@@ -1,38 +1,70 @@
+<h1>ユーザー一覧</h1>
+
 <div class="container">
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
 
-    <h2>ユーザー一覧</h2>
+<div class="row">
 
-    <table>
-
-			<tr>
-        <th> ユーザーID </th>
-        <th> ユーザー名 </th>
+<div class="col-md-12">
+  <table class="users-table">
+    <thead>
+		  <tr>
+        <th>
+          ユーザーID
+        </th>
+        <th>
+          会員ステータス
+        </th>
+        <th>
+          名前
+        </th>
+        <th>
+          ユーザー名
+        </th>
+        <th>
+          メールアドレス
+        </th>
+        <th colspan="2">
+        </th>
       </tr>
-
+    </thead>
+    <tbody>
       <% @users.each do |user| %>
-          <tr>
-            <td class="list"> <%= user.id %> </td>
-            <td class="list"> <%= user.name %> </td>
-            <td class="command">
-              <% if user.leave_at == nil %>
-                アクティブユーザー
+        <tr>
+          <td>
+            <%= user.id %>
+          </td>
+          <td>
+            <% if user.leave_at == nil %>
+              <% if user.admin %>
+                <h4><span class="label label-primary"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 管理者ユーザー</span></h4>
               <% else %>
-                退会済
+                <h4><span class="label label-warning"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> 一般ユーザー</span></h4>
               <% end %>
-            </td>
-            <td class="command"> <%= link_to "Show", user_path(user) %> </td>
-            <td class="command"> <%= link_to "Edit", edit_user_path(user) %> </td>
-            <td class="command"> <%= link_to "Delete", user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' }, class: "delete_method" %> </td>
-          </tr>
+            <% else %>
+              <h4><span class="label label-default"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> 退会済</span></h4>
+            <% end %>
+          </td>
+          <td>
+            <%= user.name %>
+          </td>
+          <td>
+            <%= user.nickname %>
+          </td>
+          <td>
+            <%= user.email %>
+          </td>
+          <td>
+            <%= link_to "詳細", user_path(user) %>
+          </td>
+          <td>
+            <%= link_to "編集", edit_user_path(user) %>
+          </td>
+        </tr>
       <% end %>
 
-    </table>
+  </table>
+</div> <!-- /col -->
 
-    </div>
-  </div>
-</div>
+</div> <!-- /row -->
 
-<br>
-<br>
+</div> <!-- /container -->

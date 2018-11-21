@@ -12,7 +12,7 @@
           購入履歴ID
         </th>
         <th>
-          購入ユーザー名
+          購入ユーザー氏名
         </th>
         <th>
           購入日時
@@ -25,6 +25,8 @@
         </th>
         <th class="histories-shipping-statuses">
           発送状況
+        </th>
+        <th>
         </th>
       </tr>
     </thead>
@@ -74,20 +76,30 @@
               <% end %>
             </div>
             <!-- update -->
-            <%= form_for(history) do |f| %>
-              <div class="form-group">
-                <%= f.select :shipping_status, History.shipping_statuses.keys.to_a, {}, class:"form_control" %>
-                <%= f.submit "変更する", class:"btn btn-default btn-xs" %>
-              </div>
+            <% if current_user.admin %>
+              <%= form_for(history) do |f| %>
+                <div class="form-group">
+                  <%= f.select :shipping_status, History.shipping_statuses.keys.to_a, {}, class:"form_control" %>
+                  <%= f.submit "変更する", class:"btn btn-default btn-xs" %>
+                </div>
+              <% end %>
             <% end %>
+          </td>
+          <td>
+            <%= link_to "詳細", history_path(history.id) %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= paginate @histories %>
 </div>
 
 </div> <!-- /row -->
+
+<div class="row">
+  <div class="col-md-12 pagination">
+    <%= paginate @histories %>
+  </div>
+</div>
 
 </div> <!-- /container -->

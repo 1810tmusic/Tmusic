@@ -18,12 +18,12 @@ window.onload=function(){
         <%= devise_error_messages! %>
 
         <div class="field form-group">
-          <%= f.label :name, "名前 ( 漢字 ) " %><br />
+          <%= f.label :name, "名前" %> <em>( 漢字 )</em><br />
           <%= f.text_field :name, autofocus: true, autocomplete: "name", class:"form-control" %>
         <div>
 
         <div class="field form-group">
-          <%= f.label :name_kana, "名前 ( カナ ) " %><br />
+          <%= f.label :name_kana, "ナマエ" %> <em>( カナ )</em><br />
           <%= f.text_field :name_kana, autofocus: true, autocomplete: "name_kana", class:"form-control" %>
         </div>
 
@@ -44,8 +44,11 @@ window.onload=function(){
         </div>
 
         <div class="field form-group">
-          <%= f.label :address, "住所" %><br />
           <div class="row">
+            <div class="col-md-10">
+              <%= f.label :address, "住所" %> <br />
+              <em>( 郵便番号は半角で、ハイフンを入れないでください )</em>
+            </div>
             <div class="col-md-5">
               <%= f.text_field :postal_code, autofocus: true, autocomplete: "postal_code", class:"form-control", placeholder:"〒" %>
             </div>
@@ -55,7 +58,8 @@ window.onload=function(){
 
 
         <div class="field form-group">
-          <%= f.label :phone_number, "電話番号" %><br />
+          <%= f.label :phone_number, "電話番号" %> <em>( 半角 )</em><br />
+          <em>( ハイフンを入れないでください )</em><br />
           <%= f.text_field :phone_number, autofocus: true, autocomplete: "phone_number", class:"form-control" %>
         </div>
 
@@ -67,7 +71,7 @@ window.onload=function(){
         <div class="field form-group">
           <%= f.label :password, "パスワード" %>
           <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %>文字以上)</em>
+          <em>( <%= @minimum_password_length %>文字以上 )</em>
           <% end %><br />
           <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
         </div>

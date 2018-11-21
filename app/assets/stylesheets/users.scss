@@ -2,10 +2,30 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.users-table {
+.users-table, .user-edit-table, .destinations-table {
   width: 100%;
 }
 
-.users-table th, .users-table td {
-  border: 1px solid #000;
+.users-table th, .users-table td,
+.destinations-table th, .destinations-table td {
+  border-bottom: 1px solid #000;
+}
+
+.user-actions-button {
+  margin-bottom: 5px;
+}
+
+.user-edit-table th, .user-edit-table td {
+  padding: 5px 0;
+  border-bottom: 1px solid #000;
+}
+
+.user-edit-table th {
+  width: 30%;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.destinations-new-right {
+  padding-top: 80px;
 }

@@ -16,6 +16,24 @@
 //= require activestorage
 //= require jquery
 //= require bootstrap-sprockets
+//= require cocoon
 //= require_tree .
 
-//= require cocoon
+
+
+$(function() {
+	$(document).on("ajax:success", ".fav", function(e) {
+		if ($('#' + e.detail[0]).hasClass('btn btn-info btn-xs')) {
+			$('#' + e.detail[0]).removeClass('btn btn-info btn-xs').addClass('btn btn-danger btn-xs');
+		} else {
+			$('#' + e.detail[0]).removeClass('btn btn-danger btn-xs').addClass('btn btn-info btn-xs');
+		}
+    if ($('#aw' + e.detail[0]).hasClass('glyphicon glyphicon-music')) {
+			$('#aw' + e.detail[0]).removeClass('glyphicon glyphicon-music').addClass('glyphicon glyphicon-trash');
+			$('#aw' + e.detail[0]).text('マイコレ削除');
+		} else {
+			$('#aw' + e.detail[0]).removeClass('glyphicon glyphicon-trash').addClass('glyphicon glyphicon-music');
+			$('#aw' + e.detail[0]).text('マイコレ追加');
+		}
+	})
+})
