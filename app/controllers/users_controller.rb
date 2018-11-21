@@ -1,28 +1,28 @@
 class UsersController < ApplicationController
-	# ログインユーザー以外が他のユーザーの編集ができないようにする（一旦保留）
-	# before_action :correct_user, only: [:edit, :update]
+		before_action :authenticate_user!
+		# ログインユーザーに対するアクション
+		before_action :correct_user, only: [:show, :edit, :update, :destination_index, :destination_create, :destination_edit, :destination_update, :destination_destroy, :soft_destroy]
+		# 管理者に対するアクション
+		before_action :admin_user, only: [:index, :destroy]
+
 
 	def index
 		@users = User.all
 	end
 
-	# マイページ
 	def show
-		@user = User.find(params[:id])
 		@age = (Date.today.strftime("%Y%m%d").to_i - @user[:birthday].strftime("%Y%m%d").to_i) / 10000
 		@destinations = @user.destinations
 	end
 
 	def edit
-		@user = User.find(params[:id])
 	end
 
 	def update
-		@user = User.find(params[:id])
 		if @user.update(user_params)
             flash[:notice] = "登録情報を変更しました。"
             redirect_to user_path(@user)
-        else
+    else
             render :edit
 		end
 	end
@@ -35,14 +35,12 @@ class UsersController < ApplicationController
 
 	# 配送先のメソッド
 	def destination_index
-		@user = User.find(params[:id])
 		@destinations = @user.destinations
 		@destination = Destination.new
 	end
 
 	def destination_create
 		@destination = Destination.new(destination_params)
-		@user = User.find(params[:id])
 		@destination.user_id = @user.id
 		if @destination.save
 			flash[:notice] = "配送先を追加しました。"
@@ -88,7 +86,21 @@ class UsersController < ApplicationController
     end
   end
 
-  
+	def correct_user
+		@user = User.find(params[:id])
+		if current_user.admin != true
+			@user = User.find(current_user.id)
+		else
+			@user = User.find(params[:id])
+		end
+	end
+
+	def admin_user
+		if current_user.admin != true
+			redirect_to "/"
+		end
+	end
+
 	private
   def user_params
     params.require(:user).permit(:name, :name_kana, :postal_code, :address, :phone_number, :admin, :nickname, :birthday)
@@ -98,9 +110,6 @@ class UsersController < ApplicationController
 	end
 end
 
-    #  def correct_user
-    #     @user = User.find(params[:id])
-    #     if current_user != @user
-    #       redirect_to root_path
-    #     end
-    # 	end
+
+
+

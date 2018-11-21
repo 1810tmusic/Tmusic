@@ -1,10 +1,11 @@
 class ProductsController < ApplicationController
-
-	# before_action :authenticate_user!
+		# 管理者のみページが開けるようにする
+		before_action :admin_user, only: [:new, :edit]
 
 	def top
 		@products = Product.includes(:prices).all
 	end
+
 
 	def new
 		@product_new = Product.new
@@ -15,10 +16,11 @@ class ProductsController < ApplicationController
 	end
 
 	def index
-		@products = Product.includes(:prices).page(params[:page]).per(24)
+		@products = Product.includes(:prices).page(params[:page]).per(24).search(params[:search])
 	end
 
 	def show
+		@product = Product.find(params[:id])
 	end
 
 	def edit
@@ -56,6 +58,12 @@ class ProductsController < ApplicationController
 			post = current_user.posts.new(product_id: product.id)
 			post.save!
 			render json: product.id
+		end
+	end
+
+	def admin_user
+		if current_user.admin != true
+			redirect_to "/"
 		end
 	end
 
