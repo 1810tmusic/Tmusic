@@ -8,14 +8,14 @@ window.onload=function(){
   }
 </script>
 
-<h1>ユーザー編集</h1>
-
         <% if @user.errors.any? %>
           <%= @user.errors.count %>件のエラーが発生しました
           <% @user.errors.full_messages.each do |message| %>
             <%= message %>
           <% end %>
         <% end %>
+
+<h1>ユーザー編集</h1>
 
 <div class="container">
 
