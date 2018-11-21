@@ -11,4 +11,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( admin.js admin.css ajaxzip3.js jquery-3.3.1.min.js skippr.min.js skippr.css top.js )
+Rails.application.config.assets.precompile += %w( admin.js admin.css ajaxzip3.js jquery-3.3.1.min.js skippr.min.js skippr.css top.js sessions_new.js)
