@@ -20,7 +20,7 @@ class HistoriesController < ApplicationController
       end
     end
     if @cart_item_error_status == "sold_out"
-      flash[:notice] = @cart_item_error_product + "は、売り切れです"
+      flash[:notice] = @cart_item_error_product + "は、カートに入れている間に売り切れになりました"
       redirect_to cart_path(@cart.id)
     elsif @cart_item_error_status == "change_count"
       flash[:notice] = @cart_item_error_product + "は在庫が不足しているため、購入枚数を変更させていただきました"

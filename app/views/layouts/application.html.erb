@@ -72,8 +72,8 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                       <li role="presentation"><%= link_to "マイページ", user_path(current_user) %></li>
-                      <li role="presentation"><%= link_to "コレクション", user_posts_path(current_user) %></li>
                       <li role="presentation"><%= link_to "購入履歴", user_histories_path(current_user) %></li>
+                      <li role="presentation"><%= link_to "マイコレクション", user_posts_path(current_user) %></li>
                       <li role="presentation"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout" %></li>
                     </ul>
                   </li>
@@ -108,15 +108,22 @@
     </header>
 <!-- ヘッダーおわり -->
 
-    <!--
-      <div class="flash">
-        <% if flash[:notice] %>
-          <div class="flash">
-            <%= flash[:notice] %>
-          </div>
-        <% end %>
-      </div>
-    -->
+<!-- フラッシュ -->
+<% if notice %>
+  <div class="flash-message-application">
+    <div class="container">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= notice %>
+    </div>
+  </div>
+<% end %>
+<% if alert %>
+  <div class="flash-message-application">
+    <div class="container">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= alert %>
+    </div>
+  </div>
+<% end %>
+<!-- フラッシュおわり -->
 
     <main>
       <%= yield %>
