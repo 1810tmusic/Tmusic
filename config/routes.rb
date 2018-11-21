@@ -31,9 +31,9 @@ Rails.application.routes.draw do
   # 配送先
   get 'users/:id/destination' => 'users#destination_index', as: "destination_index"
   post 'users/:id/destination' => 'users#destination_create', as: "destination_create"
-  get 'users/:id/destination/edit' => 'users#destination_edit', as: "destination_edit"
-  patch 'users/:id/destination/update' =>'users#destination_update', as: "destination_update"
-  delete 'users/:id/destination/destroy' => 'users#destination_destroy', as: "destination_destroy"
+  get 'users/destination/:id/edit' => 'users#destination_edit', as: "destination_edit"
+  patch 'users/destination/:id/update' =>'users#destination_update', as: "destination_update"
+  delete 'users/destination/:id/destroy' => 'users#destination_destroy', as: "destination_destroy"
 
 
 end
