@@ -7,7 +7,7 @@
       </tr>
       <tr>
         <td><%= f.number_field :disc_no, min:0  %><br></td>
-        <td><%= link_to_remove_association "remove disc", f %></td>
+        <td><%= link_to_remove_association "ディスク削除", f %></td>
       </tr>
     </table>
   </div>
@@ -19,6 +19,8 @@
         <%= render 'song_fields', f: song %>
       <%end%>
 
-      <%= link_to_add_association "＋add song", f, :songs %>
+      <div class="links">
+      <%= link_to_add_association "曲追加", f, :songs %>
+      </div>
   </div>
 </div>
