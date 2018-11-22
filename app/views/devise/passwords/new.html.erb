@@ -1,16 +1,31 @@
-<h2>Forgot your password?</h2>
+<%= devise_error_messages! %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
+<div class="container">
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="row">
+
+<div class="col-md-4 col-md-offset-4">
+  <div class="devise-passwords-new-headline">
+    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> パスワードリマインダー
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+  <div class="devise-passwords-new-inst">
+    ログイン時に使用するメールアドレスを入力してください。パスワード再設定のご案内メールを送信いたします。
   </div>
-<% end %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <div class="form-group">
+      <div class="devise-passwords-new-field">
+        <%= f.label :email, "メールアドレス" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+      </div>
+      <div class="devise-actions-button">
+        <%= button_tag class:"btn btn-warning form-control" do %>
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 送信
+        <% end %>
+      </div>
+    </div> <!-- /form-group -->
+  <% end %>
+</div> <!-- /col -->
 
-<%= render "devise/shared/links" %>
+</div> <!-- /row -->
+
+</div> <!-- /container -->

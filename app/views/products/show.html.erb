@@ -54,8 +54,25 @@
   <!-- 価格おわり -->
   <!-- 在庫 -->
   <div class="product-show-stock">
-    <% if current_user.admin %>
-      在庫数: <%= @product.stock %>
+    <% if user_signed_in? %>
+      <% if current_user.admin %>
+        在庫数: <%= @product.stock %>
+      <% else %>
+        <% if @product.stock == 0 %>
+          <span class="stock-zero">
+            在庫なし
+          </span>
+        <% elsif @product.stock == 1 %>
+          <span class="stock-one">
+            <p>残り1点</p>
+            <p>ご注文はお早めに！</p>
+          </span>
+        <% else %>
+          <span class="stock-plenty">
+            在庫あり
+          </span>
+        <% end %>
+      <% end %>
     <% else %>
       <% if @product.stock == 0 %>
         <span class="stock-zero">
