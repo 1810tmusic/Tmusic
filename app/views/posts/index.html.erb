@@ -29,9 +29,19 @@ form {margin: 0;}
 <% end %>
 <tr>
 <th></th>
-<th><%= post.product.product_image_id %></th>
+<th>
+  <%= link_to product_path(post.product.id) do %>
+              <div class="product-image-cart">
+                <% if post.product.product_image.present? %>
+                  <%= attachment_image_tag post.product, :product_image, :fill, 120, 120, format: 'jpeg' %>
+                <% else %>
+                  No Image
+                <% end %>
+              </div>
+            <% end %>
+          </th>
 <th><%= link_to post.product.product_name, product_path(post.product) %></th>
-<th>アーティスト</th>
+<th><%= post.product.artist.artist_name %></th>
 <th id="<%= post.id %>"><%= post.comment %></th>
 <% if current_user.id === @user.id%>
 <th><%= link_to "編集", edit_user_post_path(user_id: @user.id, id: post.id), remote: true %></th>
