@@ -1,24 +1,25 @@
 class UsersController < ApplicationController
 		before_action :authenticate_user!
-		# ログインユーザーに対するアクション
-		before_action :correct_user, only: [:show, :edit, :update, :destination_index, :destination_create, :destination_edit, :destination_update, :destination_destroy, :soft_destroy]
-		# 管理者に対するアクション
+		before_action :correct_user, only: [:show, :edit, :update, :destination_index, :destination_create, :soft_destroy]
+		before_action :destination_user, only: [:destination_edit, :destination_update, :destination_destroy]
 		before_action :admin_user, only: [:index, :destroy]
-
 
 	def index
 		@users = User.all
 	end
 
 	def show
+		# @user = User.find(params[:id])
 		@age = (Date.today.strftime("%Y%m%d").to_i - @user[:birthday].strftime("%Y%m%d").to_i) / 10000
 		@destinations = @user.destinations
 	end
 
 	def edit
+		# @user = User.find(params[:id])
 	end
 
 	def update
+		# @user = User.find(params[:id])
 		if @user.update(user_params)
             flash[:notice] = "登録情報を変更しました。"
             redirect_to user_path(@user)
@@ -29,13 +30,23 @@ class UsersController < ApplicationController
 
 	def destroy
 		@user = User.find(params[:id])
-		@user.destroy
-		redirect_to users_path
+		@histories = History.all
+		if @user.histories.empty?
+						@user.destroy
+						flash[:notice] = "ユーザーを削除しました。"
+						redirect_to users_path
+		else
+						flash[:notice] = "購入履歴があるため削除出来ません。"
+						@destinations = @user.destinations
+						render :show
+		end
 	end
 
 	# 配送先のメソッド
 	def destination_index
-		@destinations = @user.destinations
+		# @user = User.find(params[:id])
+		@destinations = Destination.all
+		@userdestination = @user.destinations
 		@destination = Destination.new
 	end
 
@@ -43,7 +54,7 @@ class UsersController < ApplicationController
 		@destination = Destination.new(destination_params)
 		@destination.user_id = @user.id
 		if @destination.save
-			flash[:notice] = "配送先を追加しました。"
+						flash[:notice] = "配送先を追加しました。"
             redirect_to destination_index_path
 		else
 			@destinations = @user.destinations
@@ -58,10 +69,10 @@ class UsersController < ApplicationController
 	def destination_update
 		@destination = Destination.find(params[:id])
 		if @destination.update(destination_params)
-			flash[:notice] = "配送先情報を変更しました。"
-			redirect_to destination_index_path(@destination.user_id)
+						flash[:notice] = "配送先情報を変更しました。"
+						redirect_to destination_index_path(@destination.user_id)
 		else
-			render :destination_edit
+						render :destination_edit
 		end
 	end
 
@@ -86,18 +97,29 @@ class UsersController < ApplicationController
     end
   end
 
-	def correct_user
-		@user = User.find(params[:id])
-		if current_user.admin != true
-			@user = User.find(current_user.id)
-		else
+	# before_action ログインユーザーの定義(index, edit, update, destination_index, destination_create, soft_destroy)
+		def correct_user
 			@user = User.find(params[:id])
+			if current_user.admin != true
+						@user = User.find(current_user.id)
+			end
 		end
-	end
 
+	# before_ation 配送先ユーザーの定義(destination_edit, destination_update, destination_destroy)
+		def destination_user
+			@user = User.find(current_user.id)
+			@destination = Destination.find(params[:id])
+				if @user.admin == true then
+						@user.id == @destination.user_id
+				elsif current_user.id != @destination.user_id then
+						redirect_to destination_index_path(@user)
+				end
+		end
+
+	# before_action 管理者の定義(index, destroy)
 	def admin_user
 		if current_user.admin != true
-			redirect_to "/"
+						redirect_to "/"
 		end
 	end
 
