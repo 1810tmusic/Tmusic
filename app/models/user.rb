@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :timeoutable
 
-  has_many :destinations, foreign_key: "user_id"
+  has_many :destinations, foreign_key: "user_id", dependent: :destroy
   has_many :posts, foreign_key: "user_id"
   has_many :products, through: :posts, source: :product
   has_many :carts, foreign_key: "user_id"
