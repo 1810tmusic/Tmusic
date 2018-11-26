@@ -66,9 +66,26 @@ class ProductsController < ApplicationController
 
 
 	def destroy
-		product = Product.find(params[:id])
-		product.destroy
-		redirect_to products_path
+		@product = Product.find(params[:id])
+		carts = Cart.joins(:cart_items).where(cart_items:{product_id: @product.id})
+		@histories = nil
+		carts.each do |cart|
+			@histories = History.where(cart_id: cart.id)
+		end
+		if @histories
+			flash[:notice] = "商品 “" + @product.product_name + "” は購入履歴があるため削除できません"
+			redirect_to products_path
+		else
+			@product.discs.each do |disc|
+				disc.songs.destroy_all
+			end
+		  @product.discs.destroy_all
+		  @product.prices.destroy_all
+			@product.posts.destroy_all
+			@product.destroy
+		  flash[:notice] = "商品 “" + @product.product_name + "” を削除しました"
+			redirect_to products_path
+		end
 	end
 
 	def post
