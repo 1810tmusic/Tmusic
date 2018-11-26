@@ -35,5 +35,8 @@ Rails.application.routes.draw do
   patch 'users/destination/:id/update' =>'users#destination_update', as: "destination_update"
   delete 'users/destination/:id/destroy' => 'users#destination_destroy', as: "destination_destroy"
 
+  # 商品の価格登録
+  get 'products/:id/price/new' => 'products#price_new', as: "price_new"
+  post 'products/:id/edit' => 'products#price_create', as: "price_create"
 
 end

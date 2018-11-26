@@ -46,13 +46,6 @@
 						<%= f.number_field :stock, min:0 %><br>
 
 
-					<h4>価格</h4>
-						<div class="prices">
-						<%= f.fields_for :prices do |price| %>
-							<%= price.text_field :price %>
-						<% end %>
-						</div>
-
 					<%= f.submit'登録', class: "Create" %>
 			<% end %>
 		</div>

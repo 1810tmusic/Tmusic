@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 		# 管理者のみページが開けるようにする
-		before_action :admin_user, only: [:new, :edit]
+		before_action :admin_user, only: [:new, :create, :edit, :update, :destroy, :price_edit, :price_update]
 
 	def top
 		@products = Product.includes(:prices).all
@@ -35,20 +35,24 @@ class ProductsController < ApplicationController
 		artist = Artist.create(artist_name: params[:product][:artist])
 		label = Label.create(label_name: params[:product][:label])
 		genre = Genre.create(genre_name: params[:product][:genre])
-
 		product = Product.new(product_params)
 
 		# product.artist_id = artist.id
 		# product.label_id = label.id
 		# product.genre_id = genre.id
 
-		product.save
+		if product.save
+				price = Price.new(product_id: product.id, price: params["product"]["prices_attributes"]["0"]["price"].to_i)
+				price.save
+				@price.product_id = @product.id
+				redirect_to price_new_path(@product.id)
 
-		price = Price.new(product_id: product.id, price: params["product"]["prices_attributes"]["0"]["price"].to_i)
-		price.save
-		redirect_to products_path
+				flash[:notice] = "続いて価格を登録してください"
 
-		flash[:notice] = "登録しました"
+		else
+				flash[:notice] = "内容に誤りがあります"
+				render :new
+		end
 	end
 
 	def update
@@ -71,7 +75,7 @@ class ProductsController < ApplicationController
 
 
 	def destroy
-		product = Prosuct.find(params[:id])
+		product = Product.find(params[:id])
 		price = Price.find_by(product_id: @product)
 		post.destroy
 		price.destroy
@@ -91,6 +95,31 @@ class ProductsController < ApplicationController
 		end
 	end
 
+	# 価格の登録・編集メソッド
+	def price_new
+		@product = Product.find(params[:id])
+		@price = Price.new
+		@price.product_id = @product.id
+	end
+
+	def price_create
+		@product = Product.find(params[:id])
+		@price = Price.new(price_params)
+			unless Price.find_by(product_id: @product.id)
+					@price.product_id = @product.id
+				  @price.save
+					flash[:notice] = "商品の新規登録が完了しました"
+					redirect_to product_path(@product)
+			else
+				@price.product_id = @product.id
+				@price.save
+				flash[:notice] = "価格を追加しました"
+					render :edit
+			end
+	end
+
+
+	# before_action 管理者の定義 [new, create, edit, update, destroy, price_edit, price_update]
 	def admin_user
 		if current_user.admin != true
 			redirect_to "/"
@@ -102,5 +131,7 @@ class ProductsController < ApplicationController
         	params.require(:product).permit(:product_name,:product_image,:stock,:artist_id,:label_id,:genre_id,
         		discs_attributes: [:id, :disc_no, :product_id, :_destroy, songs_attributes: [:id,:song_no,:song,:disc_id, :_destroy]])
 		end
-
-end
+		def price_params
+					params.require(:price).permit(:price)
+		end
+	end
