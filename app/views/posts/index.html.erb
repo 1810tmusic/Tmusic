@@ -71,7 +71,7 @@ form {margin: 0;}
                   </div>
                 </td>
               </tr>
-              <% if current_user.id === @user.id%>
+              <% if user_signed_in? && current_user.id === @user.id%>
                 <tr>
                   <td>
                     <div>
@@ -87,7 +87,7 @@ form {margin: 0;}
             </table>
           </td>
           <td class="posts-index-delete">
-            <% if current_user.id === @user.id%>
+            <% if user_signed_in? && current_user.id === @user.id%>
               <div>
                 <%= link_to user_post_path(user_id: @user.id, id: post.id), method: :delete, style: "text-decoration: none;" do %>
                   <button class="btn btn-danger btn-sm">
