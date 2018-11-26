@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+	before_action :authenticate_user!, only: [:edit, :update, :destroy]
 
 	def index
 		@user = User.find(params[:user_id])
@@ -24,9 +25,6 @@ class PostsController < ApplicationController
 	def posted_users
 		@product = Product.find(params[:id])
 		@users = @product.users 
-	end
-
-	def create
 	end
 
 	def destroy

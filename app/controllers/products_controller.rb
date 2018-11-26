@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 		# 管理者のみページが開けるようにする
-		before_action :admin_user, only: [:new, :edit]
+
 
 	def top
 		@products = Product.includes(:prices).all
@@ -97,6 +97,49 @@ class ProductsController < ApplicationController
 		end
 	end
 
+	def info
+		@artist = Artist.new
+		@label = Label.new
+		@genre = Genre.new
+	end
+
+	def artist_create
+		@artist = Artist.create(artist_name: params[:artist][:artist_name].gsub(/[[:blank:]]+/, ''))
+		if @artist.save
+			redirect_to new_product_path
+		elsif @artist.artist_name.empty?
+			flash[:hoge] = "空はだめ"
+			redirect_to info_url
+		else
+			flash[:hoge] = "すでに登録されています"
+			redirect_to info_url
+		end
+	end
+	def label_create
+		@label = Label.create(label_name: params[:label][:label_name].strip)
+		if @label.save
+			redirect_to new_product_path
+		elsif @label.label_name.empty?
+			flash[:hoge2] = "空はだめ"
+      redirect_to info_url
+		else
+			flash[:hoge2] = "すでに登録されています"
+			redirect_to info_url
+		end
+	end
+	def genre_create
+		@genre = Genre.create(genre_name: params[:genre][:genre_name].strip)
+		if @genre.save
+			redirect_to new_product_path
+		elsif @genre.genre_name.empty?
+			flash[:hoge3] = "空はだめ"
+			redirect_to info_url
+		else
+			flash[:hoge3] = "すでに登録されています"
+			redirect_to info_url
+		end
+	end
+		
 	private
 		def product_params
         	params.require(:product).permit(:product_name,:product_image,:stock,:artist_id,:label_id,:genre_id,

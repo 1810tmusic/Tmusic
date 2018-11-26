@@ -26,6 +26,8 @@
 				<h4>ジャンル名</h4>
 					<%= f.text_field :genre %>
 					<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください--⬇"} %>
+
+				<%= link_to "新規登録", info_path %>
 		</div>
 
 
