@@ -56,14 +56,8 @@ class ProductsController < ApplicationController
 		product.genre_id = params[:product][:genre_id]
 
 		if product.save
-				price = Price.new(product_id: product.id, price: params["product"]["prices_attributes"]["0"]["price"].to_i)
-				price.save
-				@price.product_id = @product.id
-				redirect_to price_new_path(@product.id)
-
 				flash[:notice] = "続いて価格を登録してください"
-
-
+				redirect_to price_new_path(product)
 		else
 				flash[:notice] = "内容に誤りがあります"
 				render :new
