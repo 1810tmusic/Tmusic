@@ -1,3 +1,37 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.posts-index-table {
+  width: 100%;
+}
+
+.posts-index-image {
+  width: 15%;
+}
+
+.posts-index-product {
+  width: 30%;
+}
+
+.posts-index-comment {
+  width: 40%;
+}
+
+.posts-index-delete {
+  width: 15%;
+}
+
+.posts-index-actions-button {
+  margin-top: 15px;
+}
+
+.posts-index-comment-display {
+  margin: 13px;
+  font-size: large;
+  font-style: oblique;
+}
+
+.posts-index-comment-field {
+  margin: 10px;
+}

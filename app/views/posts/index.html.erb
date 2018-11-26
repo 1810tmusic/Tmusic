@@ -1,36 +1,33 @@
-<style>
+<!-- <style>
 th {text-align:center;}
 form {margin: 0;}
-</style>
-<table class="table">
-<thead>
-<tr>
-<th></th>
-<th>image</th>
-<th>product</th>
-<th>artist</th>
-<th>comment</th>
-<% if current_user.id === @user.id %>
-<th>edit</th>
-<% end %>
-<th></th>
-</tr>
-</thead>
-<tbody>
+</style> -->
+
 <% @posts.each do |post| %>
-<% if post.errors.any? %>
-<div id="error_explanation" class="alert alert-danger">
-<tr>
-<% post.errors.full_messages.each do |message| %>
-  <th><% message %></th>
+  <% if post.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <tr>
+        <% post.errors.full_messages.each do |message| %>
+          <th><% message %></th>
+        <% end %>
+      </tr>
+    </div>
+  <% end %>
 <% end %>
-</tr>
-</div>
-<% end %>
-<tr>
-<th></th>
-<th>
-  <%= link_to product_path(post.product.id) do %>
+
+<h1>マイコレクション</h1>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-12">
+  <table class="table-hover posts-index-table">
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td class="posts-index-image">
+            <%= link_to product_path(post.product.id) do %>
               <div class="product-image-cart">
                 <% if post.product.product_image.present? %>
                   <%= attachment_image_tag post.product, :product_image, :fill, 120, 120, format: 'jpeg' %>
@@ -39,15 +36,73 @@ form {margin: 0;}
                 <% end %>
               </div>
             <% end %>
-          </th>
-<th><%= link_to post.product.product_name, product_path(post.product) %></th>
-<th><%= post.product.artist.artist_name %></th>
-<th id="<%= post.id %>"><%= post.comment %></th>
-<% if current_user.id === @user.id%>
-<th><%= link_to "編集", edit_user_post_path(user_id: @user.id, id: post.id), remote: true %></th>
-<th><%= link_to "delete", user_post_path(user_id: @user.id, id: post.id), method: :delete %></th>
-<% end %>
-</tr>
-<% end %>
-</tbody>
-</table>
+          </td>
+          <td class="posts-index-product">
+            <table>
+              <tr>
+                <td class="product-show-name">
+                  <%= link_to post.product.product_name, product_path(post.product) %>
+                </td>
+              </tr>
+              <tr>
+                <td class="product-show-artist">
+                  <%= post.product.artist.artist_name %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="posts-index-actions-button">
+                    <%= link_to post_users_path(post.product.id), style: "text-decoration: none;" do %>
+                      <button class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> マイコレユーザー一覧
+                      </button>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td id="<%= post.id %>"  class="posts-index-comment">
+            <table>
+              <tr>
+                <td>
+                  <div class="posts-index-comment-display">
+                    <%= post.comment %>
+                  </div>
+                </td>
+              </tr>
+              <% if current_user.id === @user.id%>
+                <tr>
+                  <td>
+                    <div>
+                      <%= link_to edit_user_post_path(user_id: @user.id, id: post.id), remote: true, style: "text-decoration: none;" do %>
+                        <button class="btn btn-success btn-sm">
+                          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> コメント編集
+                        </button>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </td>
+          <td class="posts-index-delete">
+            <% if current_user.id === @user.id%>
+              <div>
+                <%= link_to user_post_path(user_id: @user.id, id: post.id), method: :delete, style: "text-decoration: none;" do %>
+                  <button class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> マイコレ削除
+                  </button>
+                <% end %>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div> <!-- /col -->
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->
