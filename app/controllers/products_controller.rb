@@ -4,6 +4,11 @@ class ProductsController < ApplicationController
 
 	def top
 		@products = Product.includes(:prices).all
+		@top_posts = Product.includes(:prices)
+												.find(Post.group(:product_id)
+												          .order('count(product_id) desc')
+												          .limit(6)
+												          .pluck(:product_id))
 	end
 
 

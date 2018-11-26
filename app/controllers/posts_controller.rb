@@ -23,7 +23,7 @@ class PostsController < ApplicationController
 
 	def posted_users
 		@product = Product.find(params[:id])
-		@users = @product.users 
+		@users = @product.users.page(params[:page]).per(10)
 	end
 
 	def create

@@ -1,16 +1,87 @@
-<table class="table">
-  <thead>
+<h1>マイコレユーザー一覧</h1>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-5">
+  <table class="posted-users-product-table">
     <tr>
-      <th>nickname</th>
-      <th>age</th>
+      <td class="posted-users-product-image-box">
+        <%= link_to product_path(@product.id) do %>
+          <div class="product-image-cart">
+            <% if @product.product_image.present? %>
+              <%= attachment_image_tag @product, :product_image, :fill, 120, 120, format: 'jpeg' %>
+            <% else %>
+              No Image
+            <% end %>
+          </div>
+        <% end %>
+      </td>
+      <td>
+        <table class="posted-users-product-headline">
+          <tr>
+            <td class="posted-users-product-name">
+              <%= link_to @product.product_name, product_path(@product.id) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="posted-users-product-artist">
+              <%= @product.artist.artist_name %>
+            </td>
+          </tr>
+        </table>
+        <table class="posted-users-product-details">
+          <tr>
+            <td class="posted-users-product-label">
+              レーベル: <%= @product.label.label_name %>
+            </td>
+          </tr>
+          <tr>
+            <td class="posted-users-product-genre">
+              ジャンル: <%= @product.genre.genre_name %>
+            </td>
+          </tr>
+        </table>
+      </td>
     </tr>
-  </thead>
-  <tbody>
-<% @users.each do |user|%>
-<tr>
-<th><%= link_to user.nickname, user_posts_path(user)%></th>
-<th><%= (Date.today.strftime("%Y%m%d").to_i - user[:birthday].strftime("%Y%m%d").to_i) / 10000 %></th>
-</tr>
-<% end %>
-</tbody>
-</table>
+  </table>
+</div> <!-- /col -->
+
+<div class="col-md-7">
+  <table class="table-hover posted-users-table">
+    <thead>
+      <tr>
+        <th>
+          ユーザー名
+        </th>
+        <th>
+          コメント
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user|%>
+        <tr>
+          <td>
+            <%= link_to user_posts_path(user) do %>
+              <%= user.nickname %>
+            <% end %>
+          </td>
+          <td class="posted-users-comments">
+            <%= user.posts.find_by(product_id: @product.id).comment %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="posted-users-pagination-box">
+    <div class="pagination">
+      <%= paginate @users %>
+    </div>
+  </div>
+</div> <!-- /col -->
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->
