@@ -2,6 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :products
+  get '/info/new' => 'products#info', as: "info"
+  post '/artist/create' => 'products#artist_create', as: "artist_create"
+  post '/label/create' => 'products#label_create', as: "label_create"
+  post '/genre/create' => 'products#genre_create', as: "genre_create"
+  
   resources :users do
     resources :posts, only: [:index, :edit, :update, :destroy]
   end

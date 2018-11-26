@@ -2,9 +2,10 @@
 
 <div class="container">
 
+<% @products.each_slice(3) do |row| %>
 <div class="row">
 
-<% @products.each do |product| %>
+<% row.each do |product| %>
   <div class="col-md-4">
     <div class="product-index-box">
       <%= link_to product_path(product.id) do %>
@@ -50,7 +51,7 @@
                           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 商品の編集
                         </button>
                       <% end %>
-                      <%= link_to product_path(product.id), method: :delete, style: "text-decoration: none;" do %>
+                      <%= link_to product_path(product.id), method: :delete, data: { confirm: "本当に削除しますか？\n（商品を削除すると、関連するコレクションの投稿も削除されます）" }, style: "text-decoration: none;" do %>
                         <button class="btn btn-danger btn-xs">
                           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
                         </button>
@@ -74,14 +75,15 @@
                       <% if product.posted_by?(current_user) %>
                         <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
                           <button class="btn btn-danger btn-xs" id="<%= product.id %>">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= product.id %>">マイコレ削除</span>                           </button>
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= product.id %>"></span><span id="ss<%=  product.id %>"> マイコレ削除</span>
+                          </button>
                         <% end %>
                       <!-- 追加済み時おわり -->
                       <!-- 未追加時 -->
                       <% else %>
                         <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
                           <button class="btn btn-info btn-xs" id="<%= product.id %>">
-                            <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= product.id %>">マイコレ追加</span>
+                            <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= product.id %>"></span><span id="ss<%= product.id %>"> マイコレ追加</span>
                           </button>
                         <% end %>
                       <% end %>
@@ -111,10 +113,11 @@
         </table>
       </div>
     </div>
-  </div> <!-- /col-md-2 -->
+  </div> <!-- /col-md-4 -->
 <% end %>
 
 </div> <!-- /row -->
+<% end %> <!-- /each_slice -->
 
 <div class="row">
   <div class="col-md-12 pagination">

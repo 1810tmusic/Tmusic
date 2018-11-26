@@ -103,7 +103,7 @@
           <% end %>
         </div>
         <div class="product-show-actions-button">
-          <%= link_to product_path(@product.id), method: :delete, data: { confirm: '本当に削除しますか？' }, style: "text-decoration: none;" do %>
+          <%= link_to product_path(@product.id), method: :delete, data: { confirm: "本当に削除しますか？\n（商品を削除すると、関連するコレクションの投稿も削除されます）" }, style: "text-decoration: none;" do %>
             <button class="btn btn-danger form-control">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
             </button>
@@ -133,7 +133,7 @@
           <div class="product-show-actions-button">
             <%= link_to post_products_path(@product), class:"fav", remote: true, style: "text-decoration: none;" do %>
               <button class="btn btn-danger form-control" id="<%= @product.id %>">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= @product.id %>">マイコレ削除</span>
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= @product.id %>"></span><span id="ss<%= @product.id %>" style="font-size:14px;"> マイコレ削除</span>
               </button>
             <% end %>
           </div>
@@ -143,7 +143,7 @@
           <div class="product-show-actions-button">
             <%= link_to post_products_path(@product), class:"fav", remote: true, style: "text-decoration: none;" do %>
               <button class="btn btn-info form-control" id="<%= @product.id %>">
-                <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= @product.id %>">マイコレ追加</span>
+                <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= @product.id %>"></span><span id="ss<%= @product.id %>" style="font-size:14px;"> マイコレ追加</span>
               </button>
             <% end %>
           </div>

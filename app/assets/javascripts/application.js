@@ -26,8 +26,14 @@ $(function() {
 		if ($('#' + e.detail[0]).hasClass('btn btn-info btn-xs')) {
 			$('#' + e.detail[0]).removeClass('btn btn-info btn-xs').addClass('btn btn-danger btn-xs');
 			$('#' + e.detail[0]).find('#ss' + e.detail[0]).text(" マイコレ削除");	
-		} else {
+		} else if ($('#' + e.detail[0]).hasClass('btn btn-danger btn-xs')) {
 			$('#' + e.detail[0]).removeClass('btn btn-danger btn-xs').addClass('btn btn-info btn-xs');
+			$('#' + e.detail[0]).find('#ss' + e.detail[0]).text(" マイコレ追加");
+		} else if ($('#' + e.detail[0]).hasClass('btn btn-info form-control')) {
+			$('#' + e.detail[0]).removeClass('btn btn-info form-control').addClass('btn btn-danger form-control');
+			$('#' + e.detail[0]).find('#ss' + e.detail[0]).text(" マイコレ削除");
+		} else {
+			$('#' + e.detail[0]).removeClass('btn btn-danger form-control').addClass('btn btn-info form-control');
 			$('#' + e.detail[0]).find('#ss' + e.detail[0]).text(" マイコレ追加");
 		}
     if ($('#aw' + e.detail[0]).hasClass('glyphicon glyphicon-music')) {

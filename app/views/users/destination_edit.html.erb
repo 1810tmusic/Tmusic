@@ -7,12 +7,17 @@ window.onload=function(){
   }
 </script>
 
-    <% if @destination.errors.any? %>
-      <%= @destination.errors.count %>件のエラーが発生しました
+<!-- エラーメッセージ -->
+<% if @destination.errors.any? %>
+  <div class="flash-message-application">
+    <div class="container">
       <% @destination.errors.full_messages.each do |message| %>
-        <%= message %>
+        <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= message %></p>
       <% end %>
-    <% end %>
+    </div>
+  </div>
+<% end %>
+<!-- エラーメッセージおわり -->
 
 <h1>配送先編集</h1>
 

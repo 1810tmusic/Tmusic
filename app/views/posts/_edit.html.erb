@@ -1,4 +1,23 @@
 <%= form_for @post, url: user_post_path(post_id: @post.id), method: :patch do |f| %>
-  	<%= f.text_field :comment %>
-    <%= f.submit "Update" %>
+  <div class="form-group">
+    <table>
+      <tr>
+        <td>
+          <div class="posts-index-comment-field">
+            <%= f.text_area :comment, class:"form-control" %>
+            （30文字まで）
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div>
+            <%= button_tag class:"btn btn-warning btn-sm" do %>
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 編集を保存する
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div> <!-- /form-group -->
 <% end %>
