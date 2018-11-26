@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
 		# 管理者のみページが開けるようにする
 
+		before_action :admin_user, only: [:new, :create, :edit, :update, :destroy, :price_edit, :price_update]
 
 	def top
 		@products = Product.includes(:prices).all
@@ -43,6 +44,7 @@ class ProductsController < ApplicationController
 
 	def create
 
+
 		# artist = Artist.create(artist_name: params[:product][:artist])
 		# label = Label.create(label_name: params[:product][:label])
 		# genre = Genre.create(genre_name: params[:product][:genre])
@@ -53,10 +55,19 @@ class ProductsController < ApplicationController
 		product.label_id = params[:product][:label_id]
 		product.genre_id = params[:product][:genre_id]
 
-		product.save
-		redirect_to products_path
+		if product.save
+				price = Price.new(product_id: product.id, price: params["product"]["prices_attributes"]["0"]["price"].to_i)
+				price.save
+				@price.product_id = @product.id
+				redirect_to price_new_path(@product.id)
 
-		flash[:notice] = "登録しました"
+				flash[:notice] = "続いて価格を登録してください"
+
+
+		else
+				flash[:notice] = "内容に誤りがあります"
+				render :new
+		end
 	end
 
 	def update
@@ -71,6 +82,7 @@ class ProductsController < ApplicationController
 
 
 	def destroy
+
 		@product = Product.find(params[:id])
 		carts = Cart.joins(:cart_items).where(cart_items:{product_id: @product.id})
 		@histories = nil
@@ -106,6 +118,31 @@ class ProductsController < ApplicationController
 		end
 	end
 
+	# 価格の登録・編集メソッド
+	def price_new
+		@product = Product.find(params[:id])
+		@price = Price.new
+		@price.product_id = @product.id
+	end
+
+	def price_create
+		@product = Product.find(params[:id])
+		@price = Price.new(price_params)
+			unless Price.find_by(product_id: @product.id)
+					@price.product_id = @product.id
+				  @price.save
+					flash[:notice] = "商品の新規登録が完了しました"
+					redirect_to product_path(@product)
+			else
+				@price.product_id = @product.id
+				@price.save
+				flash[:notice] = "価格を追加しました"
+					render :edit
+			end
+	end
+
+
+	# before_action 管理者の定義 [new, create, edit, update, destroy, price_edit, price_update]
 	def admin_user
 		if current_user.admin != true
 			redirect_to "/"
@@ -160,5 +197,7 @@ class ProductsController < ApplicationController
         	params.require(:product).permit(:product_name,:product_image,:stock,:artist_id,:label_id,:genre_id,
         		discs_attributes: [:id, :disc_no, :product_id, :_destroy, songs_attributes: [:id,:song_no,:song,:disc_id, :_destroy]])
 		end
-
-end
+		def price_params
+					params.require(:price).permit(:price)
+		end
+	end

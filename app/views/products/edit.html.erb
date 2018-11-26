@@ -32,17 +32,14 @@
 			<h4>在庫数</h4>
 			<%= f.number_field :stock, min:0 %><br>
 
-			<h4>価格</h4>
+			<h4>価格</h4>※すーさん価格表示の変更をお願いします
 				<div id="prices">
 					<p>現在の価格</p>
 					<% @product.prices.each do |price| %>
 						<%= price.price %>
 					<% end %><br>
 
-					<p>価格の変更</p>
-					<%= f.fields_for :prices do |price| %>
-					  <%= price.text_field :price %>
-					<% end %>
+					<%= link_to "価格の変更", price_new_path(@product) %>
 
 				</div>
 
