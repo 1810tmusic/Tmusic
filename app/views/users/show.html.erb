@@ -124,18 +124,30 @@
   <div class="form-group">
     <!-- 購入履歴ボタン -->
     <div class="user-actions-button">
-      <%= link_to user_histories_path(@user.id), style: "text-decoration: none;" do %>
-        <button class="btn btn-primary form-control">
-          <span class="glyphicon glyphicon-time" aria-hidden="true"></span> 購入履歴
+      <% unless @user.admin %>
+        <%= link_to user_histories_path(@user.id), style: "text-decoration: none;" do %>
+          <button class="btn btn-primary form-control">
+            <span class="glyphicon glyphicon-time" aria-hidden="true"></span> 購入履歴
+          </button>
+        <% end %>
+      <% else %>
+        <button class="btn btn-default form-control" disabled="disabled">
+          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 購入履歴はありません
         </button>
       <% end %>
     </div>
     <!-- 購入履歴ボタンおわり -->
     <!-- マイコレクションボタン -->
     <div class="user-actions-button">
-      <%= link_to user_posts_path(@user.id), style: "text-decoration: none;" do %>
-        <button class="btn btn-info form-control">
-          <span class="glyphicon glyphicon-music" aria-hidden="true"></span> マイコレクション
+      <% unless @user.admin %>
+        <%= link_to user_posts_path(@user.id), style: "text-decoration: none;" do %>
+          <button class="btn btn-info form-control">
+            <span class="glyphicon glyphicon-music" aria-hidden="true"></span> マイコレクション
+          </button>
+        <% end %>
+      <% else %>
+        <button class="btn btn-default form-control" disabled="disabled">
+          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> マイコレはありません
         </button>
       <% end %>
     </div>

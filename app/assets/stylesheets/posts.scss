@@ -35,3 +35,61 @@
 .posts-index-comment-field {
   margin: 10px;
 }
+
+.posted-users-product-table {
+  width: 100%;
+}
+
+.posted-users-product-image-box {
+  width: 140px;
+}
+
+.posted-users-product-headline {
+  width: 100%;
+  border-bottom: 1px #ccc solid;
+}
+
+.posted-users-product-headline td {
+  padding-bottom: 5px;
+}
+
+.posted-users-product-name {
+  font-size: large;
+  font-weight: bold;
+}
+
+.posted-users-product-artist {
+  font-size: medium;
+}
+
+.posted-users-product-details td {
+  padding-top: 5px;
+}
+
+.posted-users-product-label, .posted-users-product-genre {
+  font-style: oblique;
+  font-size: small;
+}
+
+.posted-users-table {
+  width: 100%;
+}
+
+.posted-users-table th, .posted-users-table td {
+  padding-bottom: 3px;
+  border-bottom: 1px #ccc solid;
+}
+
+.posted-users-table td {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.posted-users-comments {
+  font-style: oblique;
+}
+
+.posted-users-pagination-box {
+  margin-top: 20px;
+  width: 100%;
+}
