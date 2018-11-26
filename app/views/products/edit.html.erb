@@ -1,6 +1,5 @@
 <div class="container">
 	<div class="row">
-		<div class="col-lg-4">
 		<%= form_for(@product, html:{class: 'form-horizontal'}) do |f| %>
 			<!-- image -->
 			<%= f.attachment_field :product_image, class: "user_image" %>
@@ -16,10 +15,9 @@
 
 			<h4>ジャンル名</h4>
 				<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください--⬇"} %>
-		</div>
 
         <!-- discのHTMLを表示させてる　　 -->
-        <div class="col-lg-8">
+
 		  <div id="discs">
 		  	<%= f.fields_for :discs do |disc| %>
 				<%= render 'disc_fields', f: disc %>
@@ -27,7 +25,7 @@
 		  </div>
 
           <div id="links">
-            <%= link_to_add_association '＋add disc', f, :discs %>
+            <%= link_to_add_association 'ディスク追加', f, :discs %>
           </div>
 
 
@@ -51,6 +49,6 @@
 
 			<%= f.submit'更新', class: "Update" %>
 		<% end %>
-		</div>
+
 	</div>
 </div>
