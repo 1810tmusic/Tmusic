@@ -103,7 +103,7 @@
           <% end %>
         </div>
         <div class="product-show-actions-button">
-          <%= link_to product_path(@product.id), method: :delete, data: { confirm: '本当に削除しますか？' }, style: "text-decoration: none;" do %>
+          <%= link_to product_path(@product.id), method: :delete, data: { confirm: "本当に削除しますか？\n（商品を削除すると、関連するコレクションの投稿も削除されます）" }, style: "text-decoration: none;" do %>
             <button class="btn btn-danger form-control">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
             </button>

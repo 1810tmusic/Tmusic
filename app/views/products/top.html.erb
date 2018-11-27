@@ -2,11 +2,51 @@
 <%= stylesheet_link_tag "skippr.css", :media => "all" %>
 <div class="about-top">
   <div class="skippr-top">
-    <div style="background-image: url(/images/headphones.jpg)"></div>
-    <div style="background-image: url(/images/boy.jpg)"></div>
-    <div style="background-image: url(/images/doodle.jpg)"></div>
-    <div style="background-image: url(/images/dog.jpg)"></div>
-    <div style="background-image: url(/images/shop.jpg)"></div>
+    <div style="background-image: url(/images/headphones.jpg)">
+      <div class="container">
+        <div class="about-text-box1">
+          <p class="about-text-headline">
+            <span class="logo-bold">T</span><span class="logo-regular">music</span>で音楽をもっと楽しもう
+          </p>
+        </div>
+      </div>
+    </div>
+    <div style="background-image: url(/images/boy.jpg)">
+      <div class="container">
+        <div class="about-text-box2">
+          <p class="about-text-headline">
+            マイコレクションをつくろう
+          </p>
+        </div>
+      </div>
+    </div>
+    <div style="background-image: url(/images/doodle.jpg)">
+      <div class="container">
+        <div class="about-text-box3">
+          <p class="about-text-headline">
+            コメントを追加しよう
+          </p>
+        </div>
+      </div>
+    </div>
+    <div style="background-image: url(/images/dog.jpg)">
+      <div class="container">
+        <div class="about-text-box4">
+          <p class="about-text-headline">
+            他の人のコレクションを見てみよう
+          </p>
+        </div>
+      </div>
+    </div>
+    <div style="background-image: url(/images/shop.jpg)">
+      <div class="container">
+        <div class="about-text-box5">
+          <p class="about-text-headline">
+            新着の商品をチェックしよう
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <%= javascript_include_tag 'jquery-3.3.1.min.js' %>
@@ -16,10 +56,9 @@
 
 <div class="container">
 
+<!-- 新着 -->
 <div class="row">
-
 <h3>新着</h3>
-
 <% @products.last(6).reverse_each do |product| %>
   <div class="col-md-2">
     <%= link_to product_path(product.id) do %>
@@ -37,13 +76,13 @@
           <tr>
             <td>
               <%= link_to product_path(product.id) do %>
-                <%= product.product_name %>
+                <%= product.product_name.truncate(9) %>
               <% end %>
             </td>
           </tr>
           <tr>
             <td>
-              <%= product.artist.artist_name %>
+              <%= product.artist.artist_name.truncate(9) %>
             </td>
           </tr>
           <tr>
@@ -65,7 +104,7 @@
                           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 商品の編集
                         </button>
                       <% end %>
-                      <%= link_to product_path(product.id), method: :delete, style: "text-decoration: none;" do %>
+                      <%= link_to product_path(product.id), method: :delete, data: { confirm: "本当に削除しますか？\n（商品を削除すると、関連するコレクションの投稿も削除されます）" }, style: "text-decoration: none;" do %>
                         <button class="btn btn-danger btn-xs">
                           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
                         </button>
@@ -126,11 +165,123 @@
         </tbody>
       </table>
     </div>
-
   </div> <!-- /col-md-2 -->
 <% end %>
-
-
 </div> <!-- /row -->
+<!-- 新着おわり -->
+
+<!-- マイコレランキング -->
+<div class="row">
+<h3>マイコレ追加数トップ6</h3>
+<% @top_posts.each do |product| %>
+  <div class="col-md-2">
+    <%= link_to product_path(product.id) do %>
+      <div class="product-image-top">
+        <% if product.product_image.present? %>
+          <%= attachment_image_tag product, :product_image, :fill, 120, 120, format: 'jpeg' %>
+        <% else %>
+          No Image
+        <% end %>
+      </div>
+    <% end %>
+    <div class="product-table">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <%= link_to product_path(product.id) do %>
+                <%= product.product_name.truncate(9) %>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <%= product.artist.artist_name.truncate(9) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <% product.prices.reverse_each do |price| %>
+              価格: &yen;<%= number_with_delimiter(price.price) %>
+              <% break %>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="product-actions">
+                  <% if user_signed_in? %>
+                    <!-- 管理者ログイン時 -->
+                    <% if current_user.admin %>
+                      <%= link_to edit_product_path(product.id), style: "text-decoration: none;" do %>
+                        <button class="btn btn-success btn-xs">
+                          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 商品の編集
+                        </button>
+                      <% end %>
+                      <%= link_to product_path(product.id), method: :delete, data: { confirm: "本当に削除しますか？\n（商品を削除すると、関連するコレクションの投稿も削除されます）" }, style: "text-decoration: none;" do %>
+                        <button class="btn btn-danger btn-xs">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 商品の削除
+                        </button>
+                      <% end %>
+                    <!-- 管理者ログイン時おわり -->
+                    <!-- ユーザーログイン時 -->
+                    <% else %>
+                      <% if product.stock != 0 %>
+                        <%= link_to add_cart_path(product.id, product_id: product.id), method: :post, style: "text-decoration: none;" do %>
+                          <button class="btn btn-warning btn-xs">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> カートに追加
+                          </button>
+                        <% end %>
+                      <% else %>
+                        <button class="btn btn-default btn-xs" disabled="disabled">
+                          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
+                        </button>
+                      <% end %>
+                      <!-- マイコレクション追加ボタン -->
+                      <!-- 追加済み時 -->
+                      <% if product.posted_by?(current_user) %>
+                        <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+                          <button class="btn btn-danger btn-xs" id="<%= product.id %>">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true" id="aw<%= product.id %>"></span><span id="ss<%= product.id %>"> マイコレ削除</span>
+                          </button>
+                        <% end %>
+                      <!-- 追加済み時おわり -->
+                      <!-- 未追加時 -->
+                      <% else %>
+                        <%= link_to post_products_path(product), class:"fav", remote: true, style: "text-decoration: none;" do %>
+                          <button class="btn btn-info btn-xs" id="<%= product.id %>">
+                            <span class="glyphicon glyphicon-music" aria-hidden="true" id="aw<%= product.id %>"></span><span id="ss<%= product.id %>"> マイコレ追加</span>
+                          </button>
+                        <% end %>
+                      <% end %>
+                      <!-- 未追加時おわり -->
+                      <!-- マイコレクション追加ボタンおわり -->
+                    <% end %>
+                    <!-- ユーザーログイン時おわり -->
+                  <!-- 非ログイン時 -->
+                  <% else %>
+                    <% if product.stock != 0 %>
+                      <%= link_to add_cart_path(product.id, product_id: product.id), method: :post, style: "text-decoration: none;" do %>
+                        <button class="btn btn-warning btn-xs">
+                          <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> カートに追加
+                        </button>
+                      <% end %>
+                    <% else %>
+                      <button class="btn btn-default btn-xs" disabled="disabled">
+                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 売り切れです
+                      </button>
+                    <% end %>
+                  <% end %>
+                  <!-- 非ログイン時おわり -->
+                </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> <!-- /col-md-2 -->
+<% end %>
+</div> <!-- /row -->
+<!-- マイコレランキングおわり -->
 
 </div> <!-- /container -->
