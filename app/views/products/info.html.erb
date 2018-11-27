@@ -1,18 +1,86 @@
-<%= flash[:hoge]  %>
-<%= form_for @artist, url: artist_create_path  do |f| %>
-<%= f.label :artist_name %>
-<%= f.text_field :artist_name %>
-<%= f.submit "登録" %>
-<% end %>
-<%= flash[:hoge2] %>
-<%= form_for @label, url: label_create_path do |f| %>
-<%= f.label :label_name %>
-<%= f.text_field :label_name %>
-<%= f.submit "登録"%>
-<% end %>
-<%= flash[:hoge3] %>
-<%= form_for @genre, url: genre_create_path do |f| %>
-<%= f.label :genre_name %>
-<%= f.text_field :genre_name %>
-<%= f.submit "登録"%>
-<% end %>
+<h1>アーティスト、レーベル、ジャンル新規登録画面</h1>
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-6">
+
+  <h4>アーティスト新規登録</h4>
+  <%= form_for @artist, url: artist_create_path  do |f| %>
+    <div class="form-group">
+      <table class="info-new-table">
+        <tr>
+          <th>
+            アーティスト名
+          </th>
+          <td>
+            <%= f.text_field :artist_name, class:"form-control" %>
+          </td>
+          <td class="info-new-table-right">
+            <!-- 保存ボタン -->
+            <%= button_tag class:"btn btn-success form-control" do %>
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 登録
+            <% end %>
+            <!-- 保存ボタンおわり -->
+          </td>
+        </tr>
+      </table>
+    </div>
+  <% end %> <!-- /form_for -->
+
+  <div class="info-new-border"></div>
+
+  <h4>レーベル新規登録</h4>
+  <%= form_for @label, url: label_create_path do |f| %>
+    <div class="form-group">
+      <table class="info-new-table">
+        <tr>
+          <th>
+            レーベル名
+          </th>
+          <td>
+            <%= f.text_field :label_name, class:"form-control" %>
+          </td>
+          <td class="info-new-table-right">
+            <!-- 保存ボタン -->
+            <%= button_tag class:"btn btn-success form-control" do %>
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 登録
+            <% end %>
+            <!-- 保存ボタンおわり -->
+          </td>
+        </tr>
+      </table>
+    </div>
+  <% end %> <!-- /form_for -->
+
+  <div class="info-new-border"></div>
+
+  <h4>ジャンル新規登録</h4>
+  <%= form_for @genre, url: genre_create_path do |f| %>
+    <div class="form-group">
+      <table class="info-new-table">
+        <tr>
+          <th>
+            ジャンル名
+          </th>
+          <td>
+            <%= f.text_field :genre_name, class:"form-control" %>
+          </td>
+          <td class="info-new-table-right">
+            <!-- 保存ボタン -->
+            <%= button_tag class:"btn btn-success form-control" do %>
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 登録
+            <% end %>
+            <!-- 保存ボタンおわり -->
+          </td>
+        </tr>
+      </table>
+    </div>
+  <% end %> <!-- /form_for -->
+
+</div> <!-- /col -->
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->

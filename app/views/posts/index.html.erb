@@ -1,4 +1,30 @@
-<h1>マイコレクション</h1>
+<!-- マイコレクションヘッダー -->
+<div class="posts-index-header">
+  <div class="container">
+    <div class="posts-index-title-box">
+      <span class="posts-index-bold"><%= @user.nickname %></span><span class="posts-index-small">さんの</span><span class="posts-index-bold">マイコレクション</span>
+    </div>
+    <div class="posts-index-info-box">
+      <table class="posts-index-info-table">
+        <thead>
+          <tr>
+            <th>
+              マイコレ追加数
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <%= @posts_count %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- マイコレクションヘッダーおわり -->
 
 <div class="container">
 
@@ -87,5 +113,11 @@
 </div> <!-- /col -->
 
 </div> <!-- /row -->
+
+<div class="row">
+  <div class="col-md-12 pagination">
+    <%= paginate @posts %>
+  </div>
+</div>
 
 </div> <!-- /container -->

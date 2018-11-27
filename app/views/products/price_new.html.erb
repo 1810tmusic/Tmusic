@@ -1,11 +1,36 @@
+<h1>価格登録画面</h1>
 
-<h3>No.<%= @price.product_id %>の価格登録</h3>
+<div class="container">
 
-	<%= form_for @price, url: price_create_path(@product, @price) do |f| %>
+<div class="row">
 
-		<h4>価格</h4>
-		<%= f.text_field :price %>
+<div class="col-md-6">
 
-		<%= f.submit'登録' %>
+  <h4>商品 “<%= @price.product.product_name %>”</h4>
+  <%= form_for @price, url: price_create_path(@product, @price) do |f| %>
+    <div class="form-group">
+      <table class="price-new-table">
+        <tr>
+          <th>
+            価格
+          </th>
+          <td>
+            <%= f.text_field :price, class:"form-control" %>
+          </td>
+          <td>
+            <!-- 保存ボタン -->
+            <%= button_tag class:"btn btn-success form-control" do %>
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 保存
+            <% end %>
+            <!-- 保存ボタンおわり -->
+          </td>
+        </tr>
+      </table>
+    </div>
+  <% end %> <!-- /form_for -->
 
-<% end %>
+</div> <!-- /col -->
+
+</div> <!-- /row -->
+
+</div> <!-- /container -->

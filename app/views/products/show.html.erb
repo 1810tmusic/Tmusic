@@ -188,28 +188,37 @@
 <div class="row">
 
 <div class="col-md-12">
-
-<!-- --------------------------------------------------- -->
-<!-- ---------- ここから下の範囲を修正してください ---------- -->
-<!-- --------------------------------------------------- -->
-
-        <!-- discのHTMLを表示させてる　　 -->
-        	<p>ディスク No.</p>
-        	 <p>曲 No.</p>
-        	 <p>曲名</p>
-
-   			<% @product.discs.each do |disc| %>
-   					<div><%= disc.disc_no %></div>
-   				<% disc.songs.each do |song| %>
-   					<div><%= song.song_no %></div>
-   					<div><%= song.song %></div>
-   				<% end %>
-   			<% end %>
-
-<!-- --------------------------------------------------- -->
-<!-- ---------- ここから上の範囲を修正してください ---------- -->
-<!-- --------------------------------------------------- -->
-
+  <% @product.discs.each do |disc| %>
+    <table class="product-show-disc-table">
+      <tr>
+        <td colspan="2">
+          ディスク <%= disc.disc_no %>
+        </td>
+      </tr>
+    </table>
+    <table class="product-show-song-table">
+      <thead>
+        <tr>
+          <th class="product-show-song-table-songno">
+          </th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% disc.songs.each do |song| %>
+          <tr>
+            <td class="product-show-song-table-songno">
+              <%= song.song_no %>.
+            </td>
+            <td>
+              <%= song.song %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div> <!-- /col -->
 
 </div> <!-- /row -->

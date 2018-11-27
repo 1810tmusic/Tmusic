@@ -1,51 +1,164 @@
+<%= javascript_include_tag 'jquery-3.3.1.min.js' %>
+<%= javascript_include_tag 'image_preview.js' %>
+
+<h1>商品編集画面</h1>
+
 <div class="container">
-	<div class="row">
-		<%= form_for(@product, html:{class: 'form-horizontal'}) do |f| %>
-			<!-- image -->
-			<%= f.attachment_field :product_image, class: "user_image" %>
 
-			<h4>シングル/アルバム名</h4>
-				<%= f.text_field :product_name %>
+	<%= form_for(@product, html:{class: 'form-horizontal'}) do |f| %>
 
-			<h4>アーティスト名</h4>
-				<%= f.collection_select :artist_id, Artist.all, :id, :artist_name, {:prompt => "選択してください--⬇"} %>
-																			<!--or  :include_blank => true  空欄追加 -->
-			<h4>レーベル名</h4>
-				<%= f.collection_select :label_id, Label.all, :id, :label_name, {:prompt => "選択してください--⬇"} %>
+    <!-- ジャケット画像 -->
+    <div class="product-image-box">
+	    <h4>ジャケット画像</h4>
+	    <table class="product-image-box-table">
+		    <tr>
+			    <th>
+			 	    変更前
+			    </th>
+			    <th>
+				    変更後
+			    </th>
+		    </tr>
+		    <tr>
+			    <td>
+            <div class="product-image-show">
+              <% if @product.product_image.present? %>
+                <%= attachment_image_tag @product, :product_image, :fill, 300, 300, format: 'jpeg' %>
+              <% else %>
+                No Image
+              <% end %>
+            </div>
+          </td>
+          <td>
+      	    <!-- 選択中画像表示 -->
+            <div class="product-image-show">
+              <img id="product-img-preview">
+            </div>
+          </td>
+        </tr>
+        <tr>
+    	    <td>
+    		    <%= f.check_box :remove_product_image %>
+    		    <%= f.label :remove_product_image, "画像を削除する" %>
+    	    </td>
+    	    <td>
+    			  <%= f.attachment_field :product_image, id: :product_img %>
+    	    </td>
+        </tr>
+      </table>
+    </div>
+    <!-- ジャケット画像おわり -->
 
-			<h4>ジャンル名</h4>
-				<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください--⬇"} %>
+    <!-- 商品情報 -->
+    <div class="form-group">
+      <table class="product-edit-table">
+    	  <tr>
+    		  <th>
+    		    商品名
+    		  </th>
+    		  <td colspan="2">
+				    <%= f.text_field :product_name, class:"form-control" %>
+				  </td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  		アーティスト
+			  	</th>
+			  	<td>
+			  		<%= f.collection_select :artist_id, Artist.all, :id, :artist_name, {:prompt => "選択してください"}, class:"form-control" %>
+			  	</td>
+			  	<td rowspan="3" class="product-edit-table-top-right">
+			  		<%= link_to info_path do %>
+			  		  アーティスト<br>レーベル<br>ジャンルの<br>新規登録
+			  		<% end %>
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  		レーベル
+			  	</th>
+			  	<td>
+			  		<%= f.collection_select :label_id, Label.all, :id, :label_name, {:prompt => "選択してください"}, class:"form-control" %>
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  		ジャンル
+			  	</th>
+			  	<td>
+			  		<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください"}, class:"form-control" %>
+			  	</td>
+			  </tr>
+		  </table>
+    </div>
+    <!-- 商品情報おわり -->
 
-        <!-- discのHTMLを表示させてる　　 -->
-
+    <!-- ディスク -->
+    <div class="product-edit-disc-fields">
+    	<h4>ディスクと曲の編集</h4>
 		  <div id="discs">
-		  	<%= f.fields_for :discs do |disc| %>
-				<%= render 'disc_fields', f: disc %>
-			<% end %>
+		    <%= f.fields_for :discs do |disc| %>
+		      <%= render 'disc_fields', f: disc %>
+			  <% end %>
 		  </div>
+      <div id="links">
+        <%= link_to_add_association 'ディスク追加', f, :discs %>
+      </div>
+    </div>
+    <!-- ディスクおわり -->
 
-          <div id="links">
-            <%= link_to_add_association 'ディスク追加', f, :discs %>
-          </div>
+    <!-- 在庫・価格 -->
+    <div class="form-group">
+      <table class="product-edit-table product-edit-table-bottom">
+      	<tr>
+      		<th>
+      		  在庫数
+      		</th>
+      		<td>
+			      <%= f.number_field :stock, min:0, class:"form-control" %>
+			    </td>
+			    <td class="product-edit-table-bottom-right">
+			    </td>
+			    <td class="product-edit-table-bottom-right">
+			    </td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  	  価格
+			  	</th>
+			  	<td colspan="2">
+			  	  <!-- 価格 -->
+            <div class="product-show-price">
+              <% @product.prices.reverse_each do |price| %>
+                &yen; <%= number_with_delimiter(price.price) %>
+                <% break %>
+              <% end %>
+            </div>
+            <!-- 価格おわり -->
+          </td>
+          <td class="product-edit-table-bottom-right">
+			  		<%= link_to "価格の変更", price_new_path(@product) %>
+			  	</td>
+			  </tr>
+			</table>
+		</div>
+		<!-- 在庫・価格おわり -->
 
+    <div class="product-actions-box">
+      <!-- 保存ボタン -->
+      <div class="product-actions-button">
+        <%= button_tag class:"btn btn-success form-control" do %>
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 保存
+        <% end %>
+      </div>
+    </div>
+    <!-- 保存ボタンおわり -->
+  <% end %> <!-- /form_for -->
 
-			<h4>在庫数</h4>
-			<%= f.number_field :stock, min:0 %><br>
+  <!-- 戻るボタン -->
+  <%= link_to product_path(@product.id), style: "text-decoration: none;" do %>
+    保存せずに戻る
+  <% end %>
+  <!-- 戻るボタンおわり -->
 
-			<h4>価格</h4>※すーさん価格表示の変更をお願いします
-				<div id="prices">
-					<p>現在の価格</p>
-					<% @product.prices.each do |price| %>
-						<%= price.price %>
-					<% end %><br>
-
-					<%= link_to "価格の変更", price_new_path(@product) %>
-
-				</div>
-
-
-			<%= f.submit'更新', class: "Update" %>
-		<% end %>
-
-	</div>
-</div>
+</div> <!-- /container -->
