@@ -48,10 +48,13 @@ class ProductsController < ApplicationController
 		product.label_id = params[:product][:label_id]
 		product.genre_id = params[:product][:genre_id]
 
-		product.save
-		redirect_to products_path
-
-		flash[:notice] = "登録しました"
+		if product.save
+			redirect_to products_path
+			flash[:notice] = "登録しました"
+		else
+			flash[:notice] = "だめ"
+			render "new"
+		end
 	end
 
 	def update
