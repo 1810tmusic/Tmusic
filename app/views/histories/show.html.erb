@@ -21,7 +21,9 @@
           購入ユーザー氏名
         </th>
         <td>
-          <%= @history.cart.user.name %>
+          <%= link_to user_path(@history.cart.user.id) do %>
+            <%= @history.cart.user.name %>
+          <% end %>
         </td>
       </tr>
       <tr>
@@ -153,7 +155,9 @@
       <% @history_cart_items.each do |cart_item| %>
         <tr>
           <td>
-            <%= cart_item.product.product_name %>
+            <%= link_to product_path(cart_item.product.id) do %>
+              <%= cart_item.product.product_name %>
+            <% end %>
           </td>
           <td>
             <%= cart_item.product.artist.artist_name %>

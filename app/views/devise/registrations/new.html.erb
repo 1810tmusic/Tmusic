@@ -8,7 +8,15 @@ window.onload=function(){
   }
 </script>
 
-<%= devise_error_messages! %>
+<!-- エラーメッセージ -->
+<% if devise_error_messages? %>
+  <div class="flash-message-application">
+    <div class="container">
+      <%= devise_error_messages! %>
+    </div>
+  </div>
+<% end %>
+<!-- エラーメッセージおわり -->
 
 <h1>ユーザー新規登録</h1>
 
