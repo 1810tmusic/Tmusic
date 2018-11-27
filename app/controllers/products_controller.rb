@@ -61,17 +61,21 @@ class ProductsController < ApplicationController
 		else
 				flash[:notice] = "内容に誤りがあります"
 				render :new
-		end
+    end
 	end
 
 	def update
 
 		@product = Product.find(params[:id])
 		@price = Price.find_by(product_id: @product)
-		@product.update(product_params)
+		if @product.update(product_params)
+			flash[:notice] = "更新しました"
+			redirect_to products_path
+		else
+			flash[:notice] = "更新できませんでした"
+			redirect_to edit_product_path
+		end
 
-		flash[:notice] = "successfully"
-		redirect_to products_path
 	end
 
 
@@ -185,7 +189,7 @@ class ProductsController < ApplicationController
 			redirect_to info_url
 		end
 	end
-		
+
 	private
 		def product_params
         	params.require(:product).permit(:product_name,:product_image,:stock,:artist_id,:label_id,:genre_id,
