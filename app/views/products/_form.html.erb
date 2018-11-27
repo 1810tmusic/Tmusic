@@ -1,45 +1,122 @@
+<%= javascript_include_tag 'jquery-3.3.1.min.js' %>
+<%= javascript_include_tag 'image_preview.js' %>
+
 <div class="container">
-	<div class="row">
 
-			<%= form_for(product, html:{class: 'form-horizontal'}) do |f| %>
-					<!-- image -->
-				<%= f.attachment_field :product_image, class: "user_image" %>
+  <%= form_for(product, html:{class: 'form-horizontal'}) do |f| %>
 
-				<h4>シングル/アルバム名</h4>
-					<%= f.text_field :product_name %>
+    <!-- ジャケット画像 -->
+    <div class="product-image-box">
+	    <h4>ジャケット画像</h4>
+	    <table class="product-image-box-table">
+		    <tr>
+			    <th>
+			 	    プレビュー
+			    </th>
+		    </tr>
+		    <tr>
+          <td>
+      	    <!-- 選択中画像表示 -->
+            <div class="product-image-show">
+              <img id="product-img-preview">
+            </div>
+          </td>
+        </tr>
+        <tr>
+    	    <td>
+    			  <%= f.attachment_field :product_image, id: :product_img %>
+    	    </td>
+        </tr>
+      </table>
+    </div>
+    <!-- ジャケット画像おわり -->
 
-				<h4>アーティスト名</h4>
-					<%= f.collection_select :artist_id, Artist.all, :id, :artist_name, {:prompt => "選択してください--⬇"} %>
-																			<!--or  :include_blank => true  空欄追加 -->
-				<h4>レーベル名</h4>
-					<%= f.collection_select :label_id, Label.all, :id, :label_name, {:prompt => "選択してください--⬇"} %>
-							　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
-				<h4>ジャンル名</h4>
-					<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください--⬇"} %>
+    <!-- 商品情報 -->
+    <div class="form-group">
+      <table class="product-edit-table">
+    	  <tr>
+    		  <th>
+    		    商品名
+    		  </th>
+    		  <td colspan="2">
+				    <%= f.text_field :product_name, class:"form-control" %>
+				  </td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  		アーティスト
+			  	</th>
+			  	<td>
+			  		<%= f.collection_select :artist_id, Artist.all, :id, :artist_name, {:prompt => "選択してください"}, class:"form-control" %>
+			  	</td>
+			  	<td rowspan="3" class="product-edit-table-top-right">
+			  		<%= link_to info_path do %>
+			  		  アーティスト<br>レーベル<br>ジャンルの<br>新規登録
+			  		<% end %>
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  		レーベル
+			  	</th>
+			  	<td>
+			  		<%= f.collection_select :label_id, Label.all, :id, :label_name, {:prompt => "選択してください"}, class:"form-control" %>
+			  	</td>
+			  </tr>
+			  <tr>
+			  	<th>
+			  		ジャンル
+			  	</th>
+			  	<td>
+			  		<%= f.collection_select :genre_id, Genre.all, :id, :genre_name, {:prompt => "選択してください"}, class:"form-control" %>
+			  	</td>
+			  </tr>
+		  </table>
+    </div>
+    <!-- 商品情報おわり -->
 
-				<%= link_to "新規登録", info_path %>
-	
-
-
-
-
-
-				<div id="discs">
-					<%= f.fields_for :discs do |disc| %>
-						<%= render 'disc_fields', f: disc %>
-					<% end %>
-					<div class="links">
-						<%= link_to_add_association 'ディスク追加', f, :discs %>
-					</div>
+    <!-- ディスク -->
+    <div class="product-edit-disc-fields">
+    	<h4>ディスクと曲の登録</h4>
+      <div id="discs">
+				<%= f.fields_for :discs do |disc| %>
+					<%= render 'disc_fields', f: disc %>
+				<% end %>
+			  <div class="links">
+					<%= link_to_add_association 'ディスク追加', f, :discs %>
 				</div>
+			</div>
+    </div>
+    <!-- ディスクおわり -->
 
-					<h4>在庫数</h4>
-						<%= f.number_field :stock, min:0 %><br>
+    <!-- 在庫 -->
+    <div class="form-group">
+      <table class="product-edit-table product-edit-table-bottom">
+      	<tr>
+      		<th>
+      		  在庫数
+      		</th>
+      		<td>
+			      <%= f.number_field :stock, min:0, class:"form-control" %>
+			    </td>
+			    <td class="product-edit-table-bottom-right">
+			    </td>
+			    <td class="product-edit-table-bottom-right">
+			    </td>
+			  </tr>
+			</table>
+		</div>
+		<!-- 在庫おわり -->
 
-					<%= f.submit'登録', class: "Create" %>
-			<% end %>
-	</div>
-</div>
+    <div class="product-actions-box">
+      <!-- 保存ボタン -->
+      <div class="product-actions-button">
+        <%= button_tag class:"btn btn-success form-control" do %>
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 続いて価格を登録
+        <% end %>
+      </div>
+    </div>
+    <!-- 保存ボタンおわり -->
+  <% end %> <!-- /form_for -->
 
-
-
+</div> <!-- /container -->

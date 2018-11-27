@@ -2,6 +2,45 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.posts-index-header {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(#fc3, #f93);
+  color: #666;
+}
+
+.posts-index-title-box {
+  float: left;
+  line-height: 50px;
+  font-size: large;
+}
+
+.posts-index-bold {
+  font-weight: bold;
+}
+
+.posts-index-small {
+  font-size: small;
+}
+
+.posts-index-info-box {
+  float: right;
+  margin: 5px 0;
+}
+
+.posts-index-info-table {
+  text-align: center;
+}
+
+.posts-index-info-table th {
+  font-size: x-small;
+}
+
+.posts-index-info-table td {
+  font-weight: bold;
+  font-size: large;
+}
+
 .posts-index-table {
   width: 100%;
 }

@@ -73,6 +73,106 @@
   padding-left: 30px;
 }
 
+.product-image-box {
+  width: 100%;
+}
+
+.product-image-box-table th {
+  width: 302px;
+  text-align: center;
+  background-color: #999;
+  color: #fff;
+}
+
+#product-img-preview {
+  width: 300px;
+  height: 300px;
+}
+
+.price-new-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.price-new-table th {
+  width: 10%;
+  font-size: large;
+  font-weight: normal;
+}
+
+.price-new-table td {
+  width: 45%;
+}
+
+.info-new-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.info-new-table th {
+  width: 30%;
+  font-size: large;
+  font-weight: normal;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.info-new-table td {
+  width: 50%;
+}
+
+.info-new-table-right td {
+  width: 20%;
+}
+
+.info-new-border {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-edit-table {
+  width: 604px;
+  margin-left: 16px;
+  margin-top: 5px;
+  border-top: 1px solid #ccc;
+}
+
+.product-edit-table th, .product-edit-table td {
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-edit-table th {
+  width: 30%;
+  text-align: right;
+  padding-right: 20px;
+  font-size: large;
+  font-weight: normal;
+}
+
+.product-edit-table-top-right {
+  width: 20%;
+  text-align: right;
+}
+
+.product-edit-disc-fields {
+  margin: 30px 0;
+}
+
+.product-edit-table-bottom-right {
+  width: 20%;
+  text-align: center;
+}
+
+.product-actions-box {
+  width: 590px;
+}
+
+.product-actions-button {
+  width: 50%;
+  margin: 5px auto;
+}
+
 .product-image-show {
   width: 302px;
   height: 302px;
@@ -127,4 +227,31 @@
 
 .product-show-actions-button{
   margin-bottom: 5px;
+}
+
+.product-show-disc-table {
+  width: 100%;
+  font-size: large;
+  background-color: #999;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.product-show-disc-table td {
+  padding-left: 3px;
+}
+
+.product-show-song-table {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.product-show-song-table-songno {
+  width: 4%;
+  padding: 0 3px;
+}
+
+.product-show-song-table td {
+  padding: 5px;
+  border-bottom: 1px #ccc solid;
 }
