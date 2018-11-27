@@ -1,4 +1,6 @@
 class HistoriesController < ApplicationController
+before_action :authenticate_user!
+before_action :correct_user, only: [:show]
 
 	# カート画面の購入確定ボタンを押した時のアクション
   def create
@@ -46,7 +48,7 @@ class HistoriesController < ApplicationController
   end
 
   def show
-    @history = History.find(params[:id])
+    # @history = History.find(params[:id])
     @history_cart_items = @history.cart.cart_items.page(params[:page]).per(10)
   end
 
@@ -62,14 +64,34 @@ class HistoriesController < ApplicationController
   end
 
   def index
-    if params[:id]
-      @user = User.find(params[:id])
-      @histories = @user.histories.page(params[:page]).per(10)
+    if current_user.admin
+      if params[:id]
+        @user = User.find(params[:id])
+        @histories = @user.histories.page(params[:page]).per(10)
+      else
+        @histories = History.page(params[:page]).per(10)
+      end
     else
-      @histories = History.page(params[:page]).per(10)
+      if params[:id].to_i == current_user.id
+        @user = User.find(params[:id])
+        @histories = @user.histories.page(params[:page]).per(10)
+      else
+        flash[:notice] = "権限がありません"
+        redirect_to "/"
+      end
     end
   end
 
+  # before_action 詳細ページ
+  def correct_user
+    @history = History.find(params[:id])
+    @user = User.find(current_user.id)
+    if @user.admin == true then
+      @user.id == @history.user_id
+    elsif current_user.id != @history.user_id then
+      redirect_to "/"
+    end
+  end
 
   private
   def history_params
