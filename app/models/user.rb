@@ -11,11 +11,13 @@ class User < ApplicationRecord
   has_many :histories, foreign_key: "user_id"
 
   # バリデーション
-  # validates :name, presence: true
-  validates :name_kana, presence: true, format: { with: /\A[\p{katakana}\p{blank}ー－]+\z/, message: '名前(カナ)はカタカナで入力してください。' }
-  validates :postal_code, presence: true, format: { with: /^[ -~｡-ﾟ]*$/&&/\A\d{7}\z/, message: '郵便番号が正しくありません。ハイフンは入れないでください。'}
-  # validates :address, presence: true
-  validates :phone_number, presence: true, format: { with: /^[ -~｡-ﾟ]*$/&&/\A\d{10}$|^\d{11}\z/, message: '電話番号が正しくありません。ハイフンは入れないでください。' }
+  validates :name, presence: true
+  validates :name_kana, presence: true, format: { with: /\A[\p{katakana}\p{blank}ー－]+\z/, message: 'はカタカナで入力してください。' }
+  validates :nickname, presence: true
+  validates :postal_code, presence: true, format: { with: /^[ -~｡-ﾟ]*$/&&/\A\d{7}\z/, message: 'が正しくありません。ハイフンは入れないでください。'}
+  validates :address, presence: true
+  validates :phone_number, presence: true, format: { with: /^[ -~｡-ﾟ]*$/&&/\A\d{10}$|^\d{11}\z/, message: 'が正しくありません。ハイフンは入れないでください。' }
+  validates :email, presence: true
 
 
   # 論理削除ユーザーのログイン禁止
