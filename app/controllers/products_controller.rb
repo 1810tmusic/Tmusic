@@ -56,12 +56,15 @@ class ProductsController < ApplicationController
 		product.genre_id = params[:product][:genre_id]
 
 		if product.save
+
+
 				flash[:notice] = "続いて価格を登録してください"
 				redirect_to price_new_path(product)
 		else
 				flash[:notice] = "内容に誤りがあります"
 				render :new
     end
+
 	end
 
 	def update
