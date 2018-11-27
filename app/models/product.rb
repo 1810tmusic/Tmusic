@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
 
+	validates :discs, presence: true
+
 	attachment :product_image
 
 	belongs_to :artist
@@ -16,7 +18,7 @@ class Product < ApplicationRecord
 	  accepts_nested_attributes_for :discs, reject_if: :all_blank, allow_destroy: true
 
 	has_many :cart_items
-	
+
 	def posted_by?(user)
 		posts.where(user_id: user.id).exists?
 	end

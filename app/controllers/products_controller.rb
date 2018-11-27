@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
 		else
 				flash[:notice] = "内容に誤りがあります"
 				render :new
-		end
+    end
 	end
 
 	def update
@@ -49,6 +49,7 @@ class ProductsController < ApplicationController
 			flash[:notice] = "商品の編集内容を保存しました"
 			redirect_to product_path(@product.id)
     else
+      flash[:notice] = "更新できませんでした"
 			render :edit
     end
 	end
@@ -163,7 +164,7 @@ class ProductsController < ApplicationController
 			redirect_to info_url
 		end
 	end
-		
+
 	private
 		def product_params
         	params.require(:product).permit(:product_name,:product_image,:remove_product_image,:stock,:artist_id,:label_id,:genre_id,
