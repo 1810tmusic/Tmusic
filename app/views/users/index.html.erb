@@ -51,7 +51,15 @@
             <%= user.nickname %>
           </td>
           <td>
-            <%= user.email %>
+            <% unless user.leave_at %>
+              <%= user.email %>
+            <% else %>
+              <% @chopped_email = user.email %>
+              <% while @chopped_email.end_with?('?') %>
+                <% @chopped_email = @chopped_email.chop %>
+              <% end %>
+              <%= @chopped_email %>
+            <% end %>
           </td>
           <td>
             <%= link_to "詳細", user_path(user) %>

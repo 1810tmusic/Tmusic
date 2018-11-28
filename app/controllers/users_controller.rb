@@ -91,9 +91,15 @@ class UsersController < ApplicationController
     until @user.save do
       @user.email += "?"
     end
-    if @user.save
-      sign_out @user
-      redirect_to '/'
+		if @user.save
+			if current_user.admin
+				flash[:notice] = "ユーザー “" + @user.name + "” さんを退会させました"
+				redirect_to users_path
+			else
+			  sign_out @user
+			  flash[:notice] = "退会を受け付けました。ご利用ありがとうございました。"
+				redirect_to '/'
+			end
     end
   end
 
