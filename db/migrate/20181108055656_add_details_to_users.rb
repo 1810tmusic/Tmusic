@@ -15,7 +15,7 @@ class AddDetailsToUsers < ActiveRecord::Migration[5.2]
     change_column :users, :address, :string, null: false
     change_column :users, :phone_number, :string, null: false
     change_column :users, :nickname, :string, null: false
-    change_column :users, :birthday, :string, null: false
+    change_column :users, :birthday, :date, null: false
   end
 
   def down
