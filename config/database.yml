@@ -1,3 +1,4 @@
+
 # SQLite version 3.x
 #   gem install sqlite3
 #
@@ -25,3 +26,4 @@ production:
   adapter: postgresql-parallel-58721 
   username: Yuta Isozaki
   password: Bronx100dollar
+
