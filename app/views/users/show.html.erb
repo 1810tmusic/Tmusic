@@ -115,7 +115,15 @@
         メールアドレス
       </th>
       <td>
-        <%= @user.email %>
+        <% unless @user.leave_at %>
+          <%= @user.email %>
+        <% else %>
+          <% @chopped_email = @user.email %>
+          <% while @chopped_email.end_with?('?') %>
+            <% @chopped_email = @chopped_email.chop %>
+          <% end %>
+          <%= @chopped_email %>
+        <% end %>
       </td>
     </tr>
   </table>
@@ -154,9 +162,15 @@
     <!-- マイコレクションボタンおわり -->
     <!-- 編集ボタン -->
     <div class="user-actions-button">
-      <%= link_to edit_user_path(@user), style: "text-decoration: none;" do %>
-        <button class="btn btn-success form-control">
-          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 編集
+      <% if @user.leave_at == nil %>
+        <%= link_to edit_user_path(@user), style: "text-decoration: none;" do %>
+          <button class="btn btn-success form-control">
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 編集
+          </button>
+        <% end %>
+      <% else %>
+        <button class="btn btn-default form-control" disabled="disabled">
+          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> 編集できません
         </button>
       <% end %>
     </div>
@@ -165,10 +179,18 @@
     <div class="user-actions-button">
       <% unless @user.admin %>
         <% if @user.leave_at == nil %>
-          <%= link_to soft_destroy_path(@user.id), method: :post, data: { confirm: '本当に退会しますか？'}, style: "text-decoration: none;" do %>
-            <button class="btn btn-default form-control">
-              <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> 退会
-            </button>
+          <% if current_user.admin %>
+            <%= link_to soft_destroy_path(@user.id), method: :post, data: { confirm: "ユーザー “#{@user.name}” さんを本当に退会させますか？"}, style: "text-decoration: none;" do %>
+              <button class="btn btn-default form-control">
+                <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> 退会
+              </button>
+            <% end %>
+          <% else %>
+            <%= link_to soft_destroy_path(@user.id), method: :post, data: { confirm: '本当に退会しますか？'}, style: "text-decoration: none;" do %>
+              <button class="btn btn-default form-control">
+                <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> 退会
+              </button>
+            <% end %>
           <% end %>
         <% else %>
           <button class="btn btn-default form-control" disabled="disabled">
