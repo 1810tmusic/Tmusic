@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
 				redirect_to price_new_path(product)
 		else
 				flash[:notice] = "内容に誤りがあります"
-				render :new
+				redirect_to new_product_url	
     end
 	end
 
