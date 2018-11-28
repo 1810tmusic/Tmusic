@@ -1,6 +1,11 @@
 class Product < ApplicationRecord
 
 	validates :discs, presence: true
+	validates :product_name, presence: true
+	validates :stock, presence: true
+	validates :artist_id, presence: true
+	validates :label_id, presence: true
+	validates :genre_id, presence: true
 
 	attachment :product_image
 
